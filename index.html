@@ -182,7 +182,12 @@ function startInboxSimulation(email) {
             document.getElementById("inboxTitle").innerText = "Inbox (" + (i + 1) + ")";
             i++;
         }
-    }function refreshInbox() {
+}
+
+    addMessage();
+    setInterval(addMessage, 4000);
+}
+       function refreshInbox() {
     let inbox = document.getElementById("inbox");
 
     let div = document.createElement("div");
@@ -193,11 +198,6 @@ function startInboxSimulation(email) {
 
     let count = inbox.getElementsByClassName("mail").length;
     document.getElementById("inboxTitle").innerText = "Inbox (" + count + ")";
-}
-
-    addMessage();
-    setInterval(addMessage, 4000);
-}
 </script>
 
 </body>
