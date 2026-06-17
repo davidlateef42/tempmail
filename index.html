@@ -104,7 +104,7 @@ button {
         <button class="generate" onclick="generateEmail()">Generate Email</button>
         <button class="copy" onclick="copyEmail()">Copy Email</button>
 
-        <h4>Inbox</h4>
+      <h4 id="inboxTitle">Inbox (0)</h4>
         <div class="inbox" id="inbox">
             No emails yet...
         </div>
@@ -178,6 +178,7 @@ function startInboxSimulation(email) {
             div.className = "mail";
             div.innerText = messages[i];
             inbox.appendChild(div);
+            document.getElementById("inboxTitle").innerText = "Inbox (" + (i + 1) + ")";
             i++;
         }
     }
