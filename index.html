@@ -113,70 +113,78 @@ button {
 
 </div>
 
-<script>
-    let countdown;
-    let time = 600; // 10 minutes
+    <script>
+let countdown;
+let time = 600;
 
-    function generateEmail() {
-        let random = Math.random().toString(36).substring(2, 10);
-        let email = random + "@tempmailpro.com";
+function generateEmail() {
+    let random = Math.random().toString(36).substring(2, 10);
+    let email = random + "@tempmailpro.com";
 
-        document.getElementById("emailBox").innerText = email;
+    document.getElementById("emailBox").innerText = email;
 
-        startTimer();
-        fakeInbox(email);
+    startTimer();
+    startInboxSimulation(email);
+}
+
+function copyEmail() {
+    let email = document.getElementById("emailBox").innerText;
+
+    if (email.includes("Click generate")) {
+        alert("Generate email first!");
+        return;
     }
 
-    function copyEmail() {
-        let email = document.getElementById("emailBox").innerText;
+    navigator.clipboard.writeText(email);
+    alert("Copied!");
+}
 
-        if (email.includes("Click generate")) {
-            alert("Generate email first!");
-            return;
+function startTimer() {
+    clearInterval(countdown);
+    time = 600;
+
+    countdown = setInterval(() => {
+        let m = Math.floor(time / 60);
+        let s = time % 60;
+
+        document.getElementById("timer").innerText =
+            "Time left: " + m + ":" + (s < 10 ? "0" + s : s);
+
+        time--;
+
+        if (time < 0) {
+            clearInterval(countdown);
+            document.getElementById("timer").innerText = "Expired";
         }
+    }, 1000);
+}
 
-        navigator.clipboard.writeText(email);
-        alert("Email copied!");
-    }
+function startInboxSimulation(email) {
+    let inbox = document.getElementById("inbox");
+    inbox.innerHTML = "";
 
-    function startTimer() {
-        clearInterval(countdown);
-        time = 600;
+    let messages = [
+        "Welcome to Temp Mail Pro",
+        "Your verification code is " + Math.floor(100000 + Math.random() * 900000),
+        "New login detected for " + email,
+        "Security alert: temporary inbox active",
+    ];
 
-        countdown = setInterval(() => {
-            let minutes = Math.floor(time / 60);
-            let seconds = time % 60;
+    let i = 0;
 
-            document.getElementById("timer").innerText =
-                "Time left: " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
-
-            time--;
-
-            if (time < 0) {
-                clearInterval(countdown);
-                document.getElementById("timer").innerText = "Expired";
-            }
-        }, 1000);
-    }
-
-    function fakeInbox(email) {
-        let inbox = document.getElementById("inbox");
-        inbox.innerHTML = "";
-
-        let messages = [
-            "Welcome to Temp Mail service",
-            "Your verification code is 483921",
-            "New login detected for " + email,
-            "Security alert: email active",
-        ];
-
-        messages.forEach(msg => {
+    function addMessage() {
+        if (i < messages.length) {
             let div = document.createElement("div");
             div.className = "mail";
-            div.innerText = msg;
+            div.innerText = messages[i];
             inbox.appendChild(div);
-        });
+            i++;
+        }
     }
+
+    addMessage();
+    setInterval(addMessage, 4000);
+}
 </script>
 
 </body>
