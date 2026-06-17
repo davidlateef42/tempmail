@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temp Mail Pro</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+
+        header {
+            background: #111827;
+            padding: 18px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .box {
+            background: #1e293b;
+            width: 380px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #emailBox {
+            background: #0f172a;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            word-break: break-all;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 6px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .generate {
+            background: #22c55e;
+        }
+
+        .copy {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .inbox {
+            margin-top: 20px;
+            text-align: left;
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 8px;
+            height: 150px;
+            overflow-y: auto;
+        }
+
+        .mail {
+            background: #1e293b;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        #timer {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>Temp Mail Pro</header>
+
+<div class="container">
+
+    <div class="box">
+
+        <h3>Your Temporary Email</h3>
+
+        <div id="emailBox">Click generate to create email</div>
+
+        <div id="timer">Time left: 10:00</div>
+
+        <button class="generate" onclick="generateEmail()">Generate Email</button>
+        <button class="copy" onclick="copyEmail()">Copy Email</button>
+
+        <h4>Inbox</h4>
+        <div class="inbox" id="inbox">
+            No emails yet...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    let countdown;
+    let time = 600; // 10 minutes
+
+    function generateEmail() {
+        let random = Math.random().toString(36).substring(2, 10);
+        let email = random + "@tempmailpro.com";
+
+        document.getElementById("emailBox").innerText = email;
+
+        startTimer();
+        fakeInbox(email);
+    }
+
+    function copyEmail() {
+        let email = document.getElementById("emailBox").innerText;
+
+        if (email.includes("Click generate")) {
+            alert("Generate email first!");
+            return;
+        }
+
+        navigator.clipboard.writeText(email);
+        alert("Email copied!");
+    }
+
+    function startTimer() {
+        clearInterval(countdown);
+        time = 600;
+
+        countdown = setInterval(() => {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            document.getElementById("timer").innerText =
+                "Time left: " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+            time--;
+
+            if (time < 0) {
+                clearInterval(countdown);
+                document.getElementById("timer").innerText = "Expired";
+            }
+        }, 1000);
+    }
+
+    function fakeInbox(email) {
+        let inbox = document.getElementById("inbox");
+        inbox.innerHTML = "";
+
+        let messages = [
+            "Welcome to Temp Mail service",
+            "Your verification code is 483921",
+            "New login detected for " + email,
+            "Security alert: email active",
+        ];
+
+        messages.forEach(msg => {
+            let div = document.createElement("div");
+            div.className = "mail";
+            div.innerText = msg;
+            inbox.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
