@@ -103,6 +103,7 @@ button {
 
         <button class="generate" onclick="generateEmail()">Generate Email</button>
         <button class="copy" onclick="copyEmail()">Copy Email</button>
+        <button onclick="refreshInbox()">Refresh Inbox</button>
 
       <h4 id="inboxTitle">Inbox (0)</h4>
         <div class="inbox" id="inbox">
@@ -181,7 +182,18 @@ function startInboxSimulation(email) {
             document.getElementById("inboxTitle").innerText = "Inbox (" + (i + 1) + ")";
             i++;
         }
-    }
+    }function refreshInbox() {
+    let inbox = document.getElementById("inbox");
+
+    let div = document.createElement("div");
+    div.className = "mail";
+    div.innerText = "Inbox refreshed at " + new Date().toLocaleTimeString();
+
+    inbox.appendChild(div);
+
+    let count = inbox.getElementsByClassName("mail").length;
+    document.getElementById("inboxTitle").innerText = "Inbox (" + count + ")";
+}
 
     addMessage();
     setInterval(addMessage, 4000);
