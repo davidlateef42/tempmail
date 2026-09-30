@@ -1,222 +1,267 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temp Mail Pro</title>
 
- <style>
-<body> {
-    <div class="app">
-    font-family: Arial, sans-serif;
-    background: #0b1220;
-    color: white;
-    margin: 0;
-    text-align: center;
-}
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-header {
-    background: #111827;
-    padding: 18px;
-    font-size: 22px;
-    font-weight: bold;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: white;
+            min-height: 100vh;
+        }
 
-.container {
-    margin-top: 30px;
-    padding: 10px;
-}
+        header {
+            background: #111827;
+            padding: 18px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-.box {
-    background: #1f2937;
-    width: 380px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-}
-
-#emailBox {
-    background: #0b1220;
-    padding: 14px;
-    border-radius: 8px;
-    margin: 15px 0;
-    font-size: 16px;
-    word-break: break-all;
-}
-
-button {
-    padding: 10px 16px;
-    margin: 6px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.generate {
-    background: #22c55e;
-    color: black;
-}
-
-.copy {
-    background: #3b82f6;
-    color: white;
-}
-
-.inbox {
-    margin-top: 20px;
-    background: #0b1220;
-    padding: 10px;
-    border-radius: 10px;
-    height: 160px;
-    overflow-y: auto;
-    text-align: left;
-}
-
-.mail {
-    background: #1f2937;
-    margin: 6px 0;
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 13px;
-}
-
-#timer {
-    margin-top: 10px;
-    color: #fbbf24;
-    font-size: 14px;
-}
         .app {
-    width: 400px;
-    background: #111827;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    text-align: center;
-}
-</style>
+            width: 90%;
+            max-width: 420px;
+            margin: 40px auto;
+            background: #111827;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        #emailBox {
+            background: #0b1220;
+            padding: 14px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 16px;
+            word-break: break-all;
+        }
+
+        #timer {
+            margin: 10px 0;
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 14px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .generate {
+            background: #22c55e;
+            color: black;
+        }
+
+        .copy {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .refresh {
+            background: #6b7280;
+            color: white;
+        }
+
+        .inbox {
+            margin-top: 15px;
+            background: #0b1220;
+            padding: 10px;
+            border-radius: 10px;
+            height: 180px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .mail {
+            background: #1f2937;
+            margin: 6px 0;
+            padding: 9px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+    </style>
 </head>
 
-</div>
-    <body> 
+<body>
 
-<header>Temp Mail Pro</header>
+    <header>Temp Mail Pro</header>
 
-<div class="container">
-
-    <div class="box">
+    <div class="app">
 
         <h3>Your Temporary Email</h3>
 
-        <div id="emailBox">Click generate to create email</div>
+        <div id="emailBox">
+            Click generate to create email
+        </div>
 
-        <div id="timer">Time left: 10:00</div>
+        <div id="timer">
+            Time left: 10:00
+        </div>
 
-        <button class="generate" onclick="generateEmail()">Generate Email</button>
-        <button class="copy" onclick="copyEmail()">Copy Email</button>
-        <button onclick="refreshInbox()">Refresh Inbox</button>
+        <button class="generate" onclick="generateEmail()">
+            Generate Email
+        </button>
 
-      <h4 id="inboxTitle">Inbox (0)</h4>
+        <button class="copy" onclick="copyEmail()">
+            Copy Email
+        </button>
+
+        <button class="refresh" onclick="refreshInbox()">
+            Refresh Inbox
+        </button>
+
+        <h4 id="inboxTitle">Inbox (0)</h4>
+
         <div class="inbox" id="inbox">
             No emails yet...
         </div>
 
     </div>
 
-</div>
-
     <script>
-let countdown;
-let time = 600;
+        let countdown;
+        let inboxTimer;
+        let time = 600;
 
-function generateEmail() {
-    let random = Math.random().toString(36).substring(2, 10);
-    let email = random + "@tempmailpro.com";
+        function generateEmail() {
+            clearInterval(inboxTimer);
 
-    document.getElementById("emailBox").innerText = email;
+            let random = Math.random()
+                .toString(36)
+                .substring(2, 10);
 
-    startTimer();
-    startInboxSimulation(email);
-}
+            let email = random + "@tempmailpro.com";
 
-function copyEmail() {
-    let email = document.getElementById("emailBox").innerText;
+            document.getElementById("emailBox").innerText = email;
 
-    if (email.includes("Click generate")) {
-        alert("Generate email first!");
-        return;
-    }
+            startTimer();
+            startInboxSimulation();
+        }
 
-    navigator.clipboard.writeText(email);
-    alert("Copied!");
-}
+        function copyEmail() {
+            let email = document.getElementById("emailBox").innerText;
 
-function startTimer() {
-    clearInterval(countdown);
-    time = 600;
+            if (email.includes("Click generate")) {
+                alert("Generate an email first!");
+                return;
+            }
 
-    countdown = setInterval(() => {
-        let m = Math.floor(time / 60);
-        let s = time % 60;
+            navigator.clipboard.writeText(email)
+                .then(() => {
+                    alert("Email copied!");
+                })
+                .catch(() => {
+                    alert("Copy failed. Please copy it manually.");
+                });
+        }
 
-        document.getElementById("timer").innerText =
-            "Time left: " + m + ":" + (s < 10 ? "0" + s : s);
-
-        time--;
-
-        if (time < 0) {
+        function startTimer() {
             clearInterval(countdown);
-            document.getElementById("timer").innerText = "Expired";
+
+            time = 600;
+
+            updateTimer();
+
+            countdown = setInterval(() => {
+                time--;
+
+                updateTimer();
+
+                if (time <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById("timer").innerText = "Expired";
+                }
+            }, 1000);
         }
-    }, 1000);
-}
 
-function startInboxSimulation(email) {
-    let inbox = document.getElementById("inbox");
-    inbox.innerHTML = "";
+        function updateTimer() {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
 
-    let messages = [
-        "Welcome to Temp Mail Pro",
-        "Your verification code is " + Math.floor(100000 + Math.random() * 900000),
-        "New login detected for " + email,
-        "Security alert: temporary inbox active",
-    ];
+            document.getElementById("timer").innerText =
+                "Time left: " +
+                minutes +
+                ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
 
-    let i = 0;
+        function startInboxSimulation() {
+            let inbox = document.getElementById("inbox");
 
-    function addMessage() {
-        if (i < messages.length) {
+            inbox.innerHTML = "";
+            document.getElementById("inboxTitle").innerText = "Inbox (0)";
+
+            let messages = [
+                "Welcome to Temp Mail Pro",
+                "Your verification code is " +
+                    Math.floor(100000 + Math.random() * 900000),
+                "New login detected",
+                "Security alert: temporary inbox active"
+            ];
+
+            let i = 0;
+
+            function addMessage() {
+                if (i < messages.length) {
+                    let div = document.createElement("div");
+
+                    div.className = "mail";
+                    div.innerText = messages[i];
+
+                    inbox.appendChild(div);
+
+                    i++;
+
+                    document.getElementById("inboxTitle").innerText =
+                        "Inbox (" + i + ")";
+                } else {
+                    clearInterval(inboxTimer);
+                }
+            }
+
+            addMessage();
+
+            inboxTimer = setInterval(addMessage, 4000);
+        }
+
+        function refreshInbox() {
+            let inbox = document.getElementById("inbox");
+
             let div = document.createElement("div");
+
             div.className = "mail";
-            div.innerText = messages[i];
+
+            div.innerText =
+                "Inbox refreshed at " +
+                new Date().toLocaleTimeString();
+
             inbox.appendChild(div);
-            document.getElementById("inboxTitle").innerText = "Inbox (" + (i + 1) + ")";
-            i++;
+
+            let count =
+                inbox.getElementsByClassName("mail").length;
+
+            document.getElementById("inboxTitle").innerText =
+                "Inbox (" + count + ")";
         }
-}
-
-    addMessage();
-    setInterval(addMessage, 4000);
-}
-       function refreshInbox() {
-    let inbox = document.getElementById("inbox");
-
-    let div = document.createElement("div");
-    div.className = "mail";
-    div.innerText = "Inbox refreshed at " + new Date().toLocaleTimeString();
-
-    inbox.appendChild(div);
-
-    let count = inbox.getElementsByClassName("mail").length;
-    document.getElementById("inboxTitle").innerText = "Inbox (" + count + ")";
-           .buttons {
-    margin-top: 15px;
-}
-</script>
+    </script>
 
 </body>
 </html>
