@@ -195,6 +195,8 @@ async function checkInbox() {
 
     div.className = "message";
 
+    div.style.cursor = "pointer";
+
     div.innerHTML = `
         <strong>${escapeHtml(
             message.subject || "No subject"
@@ -216,23 +218,101 @@ async function checkInbox() {
 
         <br><br>
 
-        <strong>Message:</strong>
-
-        <div style="
-            margin-top:10px;
-            padding:10px;
-            background:white;
-            border-radius:8px;
-            white-space:pre-wrap;
-        ">
+        <span style="color:#555;">
             ${escapeHtml(
                 message.body ||
                 message.text ||
                 message.content ||
                 "No message content available."
             )}
-        </div>
+        </span>
+
+        <br><br>
+
+        <strong style="color:#222;">
+            Click to open →
+        </strong>
     `;
+
+    div.onclick = function() {
+
+        const fullMessage = document.createElement("div");
+
+        fullMessage.style.position = "fixed";
+        fullMessage.style.top = "0";
+        fullMessage.style.left = "0";
+        fullMessage.style.width = "100%";
+        fullMessage.style.height = "100%";
+        fullMessage.style.background = "rgba(0,0,0,0.6)";
+        fullMessage.style.display = "flex";
+        fullMessage.style.alignItems = "center";
+        fullMessage.style.justifyContent = "center";
+        fullMessage.style.zIndex = "9999";
+
+        fullMessage.innerHTML = `
+            <div style="
+                background:white;
+                width:90%;
+                max-width:550px;
+                max-height:80%;
+                overflow:auto;
+                padding:20px;
+                border-radius:15px;
+            ">
+
+                <h2>
+                    ${escapeHtml(
+                        message.subject || "No subject"
+                    )}
+                </h2>
+
+                <p>
+                    <strong>From:</strong>
+                    ${escapeHtml(
+                        message.from_address || "Unknown"
+                    )}
+                </p>
+
+                ${
+                    message.otp_code
+                    ? `<p>
+                        <strong>OTP:</strong>
+                        ${escapeHtml(message.otp_code)}
+                       </p>`
+                    : ""
+                }
+
+                <hr>
+
+                <p style="
+                    white-space:pre-wrap;
+                    line-height:1.6;
+                ">
+                    ${escapeHtml(
+                        message.body ||
+                        message.text ||
+                        message.content ||
+                        "No message content available."
+                    )}
+                </p>
+                
+                <button
+    onclick="this.parentElement.parentElement.remove()"
+    style="
+        width:100%;
+        margin-top:15px;
+    "
+>
+    Close
+</button>
+
+            </div>
+        `;
+
+        document.body.appendChild(fullMessage);
+
+    };
+
     inbox.appendChild(div);
 
 });
