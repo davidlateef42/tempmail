@@ -46,10 +46,6 @@ button {
     color: white;
 }
 
-button:hover {
-    opacity: 0.85;
-}
-
 .timer {
     text-align: center;
     font-size: 20px;
@@ -68,12 +64,6 @@ button:hover {
     margin: 8px 0;
     border-radius: 8px;
 }
-
-.small {
-    font-size: 13px;
-    color: #777;
-    text-align: center;
-}
 </style>
 </head>
 
@@ -89,7 +79,7 @@ button:hover {
     Click "Generate Email"
 </div>
 
-<div class="timer" id="timer">10:00</div>
+<div class="timer" id="timer">60:00</div>
 
 <div style="text-align:center;">
     <button onclick="generateEmail()">Generate Email</button>
@@ -107,20 +97,13 @@ button:hover {
     Your messages will appear here.
 </div>
 
-<p class="small">
-    Temp Mail Pro — Real temporary email powered by Mail.tm
-</p>
-
 </div>
 
 <script>
 
-const API = "https://api.mail.tm";
+const API = "https://mailboxtemp.com";
 
-let token = null;
 let currentEmail = null;
-let password = null;
-
 let countdown;
 let inboxTimer;
 
@@ -132,84 +115,31 @@ async function generateEmail() {
 
     try {
 
-        // Get available domains
-        const domainResponse = await fetch(API + "/domains?page=1");
+        const response = await fetch(
+            API + "/api/inbox/generate",
+            {
+                method: "POST"
+            }
+        );
 
-        if (!domainResponse.ok) {
-            throw new Error("Could not get email domains");
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Could not create inbox");
         }
 
-        const domainData = await domainResponse.json();
+        currentEmail = data.address;
 
-        if (!domainData["hydra:member"] || domainData["hydra:member"].length === 0) {
-            throw new Error("No email domain available");
-        }
+        document.getElementById("email").textContent =
+            currentEmail;
 
-        const domain = domainData["hydra:member"][0].domain;
-
-        // Create random username
-        const username =
-            "user" +
-            Math.random().toString(36).substring(2, 10);
-
-        currentEmail = username + "@" + domain;
-
-        password =
-            Math.random().toString(36).substring(2, 12) +
-            "A1!";
-
-        // Create account
-        const accountResponse = await fetch(API + "/accounts", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                address: currentEmail,
-                password: password
-            })
-
-        });
-
-        if (!accountResponse.ok) {
-            throw new Error("Could not create email account");
-        }
-
-        // Login
-        const tokenResponse = await fetch(API + "/token", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                address: currentEmail,
-                password: password
-            })
-
-        });
-
-        if (!tokenResponse.ok) {
-            throw new Error("Could not login to email account");
-        }
-
-        const tokenData = await tokenResponse.json();
-
-        token = tokenData.token;
-
-        document.getElementById("email").textContent = currentEmail;
-
-        status.textContent = "Email created successfully!";
+        status.textContent =
+            "Email created successfully!";
 
         document.getElementById("inbox").innerHTML =
             "Waiting for incoming messages...";
 
-        startTimer();
+        startTimer(3600);
 
         await checkInbox();
 
@@ -222,35 +152,32 @@ async function generateEmail() {
         console.error(error);
 
         status.textContent =
-            "Could not create email. Please try again.";
-
+            "Could not create email: " + error.message;
     }
 }
 
 
 async function checkInbox() {
 
-    if (!token) return;
+    if (!currentEmail) return;
 
     try {
 
-        const response = await fetch(API + "/messages", {
-
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-
-        });
-
-        if (!response.ok) {
-            throw new Error("Inbox request failed");
-        }
+        const response = await fetch(
+            API + "/api/inbox/" +
+            encodeURIComponent(currentEmail) +
+            "/emails"
+        );
 
         const data = await response.json();
 
+        if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Inbox error");
+        }
+
         const inbox = document.getElementById("inbox");
 
-        const messages = data["hydra:member"] || [];
+        const messages = data.emails || [];
 
         if (messages.length === 0) {
 
@@ -269,11 +196,20 @@ async function checkInbox() {
             div.className = "message";
 
             div.innerHTML = `
-                <strong>${escapeHtml(message.subject || "No subject")}</strong>
+                <strong>${escapeHtml(
+                    message.subject || "No subject"
+                )}</strong>
                 <br>
                 From: ${escapeHtml(
-                    message.from?.address || "Unknown sender"
+                    message.from_address || "Unknown"
                 )}
+                ${
+                    message.otp_code
+                    ? "<br><strong>OTP: " +
+                      escapeHtml(message.otp_code) +
+                      "</strong>"
+                    : ""
+                }
             `;
 
             inbox.appendChild(div);
@@ -295,7 +231,6 @@ function escapeHtml(text) {
     div.textContent = text;
 
     return div.innerHTML;
-
 }
 
 
@@ -306,41 +241,35 @@ function copyEmail() {
         alert("Generate an email first.");
 
         return;
-
     }
 
     navigator.clipboard.writeText(currentEmail);
 
     document.getElementById("status").textContent =
         "Email copied!";
-
 }
 
 
 function refreshInbox() {
 
-    if (!token) {
+    if (!currentEmail) {
 
         document.getElementById("status").textContent =
             "Generate an email first.";
 
         return;
-
     }
 
     document.getElementById("status").textContent =
         "Refreshing inbox...";
 
     checkInbox();
-
 }
 
 
-function startTimer() {
+function startTimer(seconds) {
 
     clearInterval(countdown);
-
-    let seconds = 600;
 
     updateTimer(seconds);
 
@@ -358,11 +287,9 @@ function startTimer() {
 
             document.getElementById("status").textContent =
                 "This temporary email has expired.";
-
         }
 
     }, 1000);
-
 }
 
 
@@ -378,7 +305,6 @@ function updateTimer(seconds) {
         String(minutes).padStart(2, "0") +
         ":" +
         String(remainingSeconds).padStart(2, "0");
-
 }
 
 </script>
