@@ -239,7 +239,26 @@ async function checkInbox() {
         </strong>
     `;
 
-    div.onclick = function() {
+    div.onclick = async function() {
+
+    try {
+
+        const response = await fetch(
+            API + "/api/email/" +
+            encodeURIComponent(currentEmail) +
+            "/" +
+            encodeURIComponent(message.id)
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+            throw new Error(
+                data.error || "Could not open email"
+            );
+        }
+
+        const email = data.email;
 
         const fullMessage = document.createElement("div");
 
@@ -267,22 +286,22 @@ async function checkInbox() {
 
                 <h2>
                     ${escapeHtml(
-                        message.subject || "No subject"
+                        email.subject || "No subject"
                     )}
                 </h2>
 
                 <p>
                     <strong>From:</strong>
                     ${escapeHtml(
-                        message.from_address || "Unknown"
+                        email.from_address || "Unknown"
                     )}
                 </p>
 
                 ${
-                    message.otp_code
+                    email.otp_code
                     ? `<p>
                         <strong>OTP:</strong>
-                        ${escapeHtml(message.otp_code)}
+                        ${escapeHtml(email.otp_code)}
                        </p>`
                     : ""
                 }
@@ -294,11 +313,42 @@ async function checkInbox() {
                     line-height:1.6;
                 ">
                     ${escapeHtml(
-                        message.body ||
-                        message.text ||
-                        message.content ||
+                        email.body_text ||
                         "No message content available."
                     )}
+                </p>
+
+                <button
+                    style="
+                        width:100%;
+                        margin-top:15px;
+                    "
+                >
+                    Close
+                </button>
+
+            </div>
+        `;
+
+        document.body.appendChild(fullMessage);
+
+        fullMessage.querySelector("button").onclick =
+            function() {
+                fullMessage.remove();
+            };
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not open this email: " +
+            error.message
+        );
+
+    }
+
+};
                 </p>
                 
                 <button
