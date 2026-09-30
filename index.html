@@ -191,30 +191,51 @@ async function checkInbox() {
 
         messages.forEach(message => {
 
-            const div = document.createElement("div");
+    const div = document.createElement("div");
 
-            div.className = "message";
+    div.className = "message";
 
-            div.innerHTML = `
-                <strong>${escapeHtml(
-                    message.subject || "No subject"
-                )}</strong>
-                <br>
-                From: ${escapeHtml(
-                    message.from_address || "Unknown"
-                )}
-                ${
-                    message.otp_code
-                    ? "<br><strong>OTP: " +
-                      escapeHtml(message.otp_code) +
-                      "</strong>"
-                    : ""
-                }
-            `;
+    div.innerHTML = `
+        <strong>${escapeHtml(
+            message.subject || "No subject"
+        )}</strong>
 
-            inbox.appendChild(div);
+        <br>
 
-        });
+        From: ${escapeHtml(
+            message.from_address || "Unknown"
+        )}
+
+        ${
+            message.otp_code
+            ? "<br><strong>OTP: " +
+              escapeHtml(message.otp_code) +
+              "</strong>"
+            : ""
+        }
+
+        <br><br>
+
+        <strong>Message:</strong>
+
+        <div style="
+            margin-top:10px;
+            padding:10px;
+            background:white;
+            border-radius:8px;
+            white-space:pre-wrap;
+        ">
+            ${escapeHtml(
+                message.body ||
+                message.text ||
+                message.content ||
+                "No message content available."
+            )}
+        </div>
+    `;
+    inbox.appendChild(div);
+
+});
 
     } catch (error) {
 
