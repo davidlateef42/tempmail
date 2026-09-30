@@ -220,11 +220,15 @@ async function checkInbox() {
 
         <span style="color:#555;">
             ${escapeHtml(
-                message.body ||
-                message.text ||
-                message.content ||
-                "No message content available."
-            )}
+    message.body ||
+    message.text ||
+    message.content ||
+    message.html ||
+    message.text_body ||
+    message.body_text ||
+    message.message ||
+    "No message content available."
+)}
         </span>
 
         <br><br>
