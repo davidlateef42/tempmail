@@ -314,6 +314,8 @@ async function checkInbox() {
                 ">
                     ${escapeHtml(
                         email.body_text ||
+                        email.body ||
+                        email.text ||
                         "No message content available."
                     )}
                 </p>
@@ -345,29 +347,9 @@ async function checkInbox() {
             "Could not open this email: " +
             error.message
         );
-
     }
 
 };
-                </p>
-                
-                <button
-    onclick="this.parentElement.parentElement.remove()"
-    style="
-        width:100%;
-        margin-top:15px;
-    "
->
-    Close
-</button>
-
-            </div>
-        `;
-
-        document.body.appendChild(fullMessage);
-
-    };
-
     inbox.appendChild(div);
 
 });
