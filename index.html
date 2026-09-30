@@ -1,383 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temp Mail Pro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temp Mail Pro</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    margin: 0;
+    padding: 20px;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b1220;
-            color: white;
-            min-height: 100vh;
-        }
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
-        header {
-            background: #111827;
-            padding: 18px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
+h1 {
+    text-align: center;
+}
 
-        .app {
-            width: 90%;
-            max-width: 420px;
-            margin: 40px auto;
-            background: #111827;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            text-align: center;
-        }
+.email-box {
+    background: #f0f2f5;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    margin: 15px 0;
+    word-break: break-all;
+}
 
-        #emailBox {
-            background: #0b1220;
-            padding: 14px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-size: 16px;
-            word-break: break-all;
-        }
+button {
+    padding: 12px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #222;
+    color: white;
+}
 
-        #timer {
-            margin: 10px 0;
-            color: #fbbf24;
-        }
+button:hover {
+    opacity: 0.85;
+}
 
-        button {
-            padding: 10px 14px;
-            margin: 5px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+.timer {
+    text-align: center;
+    font-size: 20px;
+    margin: 15px;
+}
 
-        .generate {
-            background: #22c55e;
-        }
+.status {
+    text-align: center;
+    margin: 10px;
+    color: #555;
+}
 
-        .copy {
-            background: #3b82f6;
-            color: white;
-        }
+.message {
+    background: #f7f7f7;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+}
 
-        .refresh {
-            background: #6b7280;
-            color: white;
-        }
-
-        .inbox {
-            margin-top: 15px;
-            background: #0b1220;
-            padding: 10px;
-            border-radius: 10px;
-            height: 200px;
-            overflow-y: auto;
-            text-align: left;
-        }
-
-        .mail {
-            background: #1f2937;
-            margin: 6px 0;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        .status {
-            font-size: 13px;
-            color: #9ca3af;
-            margin-top: 10px;
-        }
-    </style>
+.small {
+    font-size: 13px;
+    color: #777;
+    text-align: center;
+}
+</style>
 </head>
 
 <body>
 
-<header>Temp Mail Pro</header>
+<div class="container">
 
-<div class="app">
+<h1>📧 Temp Mail Pro</h1>
 
-    <h3>Your Temporary Email</h3>
+<p style="text-align:center;">Your Temporary Email</p>
 
-    <div id="emailBox">
-        Click generate to create email
-    </div>
+<div class="email-box" id="email">
+    Click "Generate Email"
+</div>
 
-    <div id="timer">
-        Time left: 10:00
-    </div>
+<div class="timer" id="timer">10:00</div>
 
-    <button class="generate" onclick="generateEmail()">
-        Generate Email
-    </button>
+<div style="text-align:center;">
+    <button onclick="generateEmail()">Generate Email</button>
+    <button onclick="copyEmail()">Copy Email</button>
+    <button onclick="refreshInbox()">Refresh Inbox</button>
+</div>
 
-    <button class="copy" onclick="copyEmail()">
-        Copy Email
-    </button>
+<div class="status" id="status">
+    No email generated yet.
+</div>
 
-    <button class="refresh" onclick="refreshInbox()">
-        Refresh Inbox
-    </button>
+<h2>Inbox</h2>
 
-    <div class="status" id="status">
-        Ready
-    </div>
+<div id="inbox">
+    Your messages will appear here.
+</div>
 
-    <h4 id="inboxTitle">Inbox (0)</h4>
-
-    <div class="inbox" id="inbox">
-        No emails yet...
-    </div>
+<p class="small">
+    Temp Mail Pro — Real temporary email powered by Mail.tm
+</p>
 
 </div>
 
 <script>
-    const API = "https://api.mail.tm";
 
-    let token = null;
-    let currentEmail = null;
-    let countdown = null;
-    let inboxTimer = null;
-    let time = 600;
+const API = "https://api.mail.tm";
 
-    async function generateEmail() {
+let token = null;
+let currentEmail = null;
+let password = null;
 
-        try {
+let countdown;
+let inboxTimer;
+
+async function generateEmail() {
+
+    const status = document.getElementById("status");
+
+    status.textContent = "Creating your temporary email...";
+
+    try {
+
+        // Get available domains
+        const domainResponse = await fetch(API + "/domains?page=1");
+
+        if (!domainResponse.ok) {
+            throw new Error("Could not get email domains");
+        }
+
+        const domainData = await domainResponse.json();
+
+        if (!domainData["hydra:member"] || domainData["hydra:member"].length === 0) {
+            throw new Error("No email domain available");
+        }
+
+        const domain = domainData["hydra:member"][0].domain;
+
+        // Create random username
+        const username =
+            "user" +
+            Math.random().toString(36).substring(2, 10);
+
+        currentEmail = username + "@" + domain;
+
+        password =
+            Math.random().toString(36).substring(2, 12) +
+            "A1!";
+
+        // Create account
+        const accountResponse = await fetch(API + "/accounts", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                address: currentEmail,
+                password: password
+            })
+
+        });
+
+        if (!accountResponse.ok) {
+            throw new Error("Could not create email account");
+        }
+
+        // Login
+        const tokenResponse = await fetch(API + "/token", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                address: currentEmail,
+                password: password
+            })
+
+        });
+
+        if (!tokenResponse.ok) {
+            throw new Error("Could not login to email account");
+        }
+
+        const tokenData = await tokenResponse.json();
+
+        token = tokenData.token;
+
+        document.getElementById("email").textContent = currentEmail;
+
+        status.textContent = "Email created successfully!";
+
+        document.getElementById("inbox").innerHTML =
+            "Waiting for incoming messages...";
+
+        startTimer();
+
+        await checkInbox();
+
+        clearInterval(inboxTimer);
+
+        inboxTimer = setInterval(checkInbox, 5000);
+
+    } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Could not create email. Please try again.";
+
+    }
+}
+
+
+async function checkInbox() {
+
+    if (!token) return;
+
+    try {
+
+        const response = await fetch(API + "/messages", {
+
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+
+        });
+
+        if (!response.ok) {
+            throw new Error("Inbox request failed");
+        }
+
+        const data = await response.json();
+
+        const inbox = document.getElementById("inbox");
+
+        const messages = data["hydra:member"] || [];
+
+        if (messages.length === 0) {
+
+            inbox.innerHTML =
+                "No messages yet. Waiting for new mail...";
+
+            return;
+        }
+
+        inbox.innerHTML = "";
+
+        messages.forEach(message => {
+
+            const div = document.createElement("div");
+
+            div.className = "message";
+
+            div.innerHTML = `
+                <strong>${escapeHtml(message.subject || "No subject")}</strong>
+                <br>
+                From: ${escapeHtml(
+                    message.from?.address || "Unknown sender"
+                )}
+            `;
+
+            inbox.appendChild(div);
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+}
+
+
+function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+function copyEmail() {
+
+    if (!currentEmail) {
+
+        alert("Generate an email first.");
+
+        return;
+
+    }
+
+    navigator.clipboard.writeText(currentEmail);
+
+    document.getElementById("status").textContent =
+        "Email copied!";
+
+}
+
+
+function refreshInbox() {
+
+    if (!token) {
+
+        document.getElementById("status").textContent =
+            "Generate an email first.";
+
+        return;
+
+    }
+
+    document.getElementById("status").textContent =
+        "Refreshing inbox...";
+
+    checkInbox();
+
+}
+
+
+function startTimer() {
+
+    clearInterval(countdown);
+
+    let seconds = 600;
+
+    updateTimer(seconds);
+
+    countdown = setInterval(() => {
+
+        seconds--;
+
+        updateTimer(seconds);
+
+        if (seconds <= 0) {
 
             clearInterval(countdown);
+
             clearInterval(inboxTimer);
 
-            document.getElementById("status").innerText =
-                "Creating mailbox...";
+            document.getElementById("status").textContent =
+                "This temporary email has expired.";
 
-            const domainResponse = await fetch(API + "/domains?page=1");
-
-            if (!domainResponse.ok) {
-                throw new Error("Could not get email domain.");
-            }
-
-            const domainData = await domainResponse.json();
-
-            if (!domainData["hydra:member"] ||
-                domainData["hydra:member"].length === 0) {
-                throw new Error("No email domain available.");
-            }
-
-            const domain =
-                domainData["hydra:member"][0].domain;
-
-            const username =
-                "user" + Math.random().toString(36).substring(2, 10);
-
-            const password =
-                "Tmp" + Math.random().toString(36).substring(2, 14) + "A1!";
-
-            currentEmail = username + "@" + domain;
-
-            const accountResponse = await fetch(API + "/accounts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    address: currentEmail,
-                    password: password
-                })
-            });
-
-            if (!accountResponse.ok) {
-                throw new Error("Could not create mailbox.");
-            }
-
-            const tokenResponse = await fetch(API + "/token", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    address: currentEmail,
-                    password: password
-                })
-            });
-
-            if (!tokenResponse.ok) {
-                throw new Error("Could not create mailbox token.");
-            }
-
-            const tokenData = await tokenResponse.json();
-
-            token = tokenData.token;
-
-            document.getElementById("emailBox").innerText =
-                currentEmail;
-
-            document.getElementById("status").innerText =
-                "Mailbox ready";
-
-            document.getElementById("inbox").innerHTML =
-                "Waiting for incoming emails...";
-
-            document.getElementById("inboxTitle").innerText =
-                "Inbox (0)";
-
-            startTimer();
-            checkInbox();
-
-            inboxTimer = setInterval(checkInbox, 5000);
-
-        } catch (error) {
-
-            console.error(error);
-
-            document.getElementById("status").innerText =
-                "Error: " + error.message;
-
-            alert(
-                "We could not create the mailbox. Please try again."
-            );
-        }
-    }
-
-    async function checkInbox() {
-
-        if (!token) {
-            return;
         }
 
-        try {
+    }, 1000);
 
-            const response = await fetch(API + "/messages", {
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
+}
 
-            if (!response.ok) {
-                return;
-            }
 
-            const data = await response.json();
+function updateTimer(seconds) {
 
-            const messages =
-                data["hydra:member"] || [];
+    const minutes =
+        Math.floor(seconds / 60);
 
-            const inbox =
-                document.getElementById("inbox");
+    const remainingSeconds =
+        seconds % 60;
 
-            inbox.innerHTML = "";
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(remainingSeconds).padStart(2, "0");
 
-            if (messages.length === 0) {
+}
 
-                inbox.innerHTML =
-                    "No emails yet...";
-
-            } else {
-
-                messages.forEach(message => {
-
-                    const div =
-                        document.createElement("div");
-
-                    div.className = "mail";
-
-                    div.innerText =
-                        "From: " +
-                        (message.from?.address || "Unknown") +
-                        "\n\n" +
-                        (message.subject || "(No subject)");
-
-                    inbox.appendChild(div);
-                });
-            }
-
-            document.getElementById("inboxTitle").innerText =
-                "Inbox (" + messages.length + ")";
-
-        } catch (error) {
-
-            console.error(error);
-        }
-    }
-
-    function copyEmail() {
-
-        if (!currentEmail) {
-            alert("Generate an email first!");
-            return;
-        }
-
-        navigator.clipboard.writeText(currentEmail)
-            .then(() => {
-                alert("Email copied!");
-            })
-            .catch(() => {
-                alert("Copy failed. Please copy it manually.");
-            });
-    }
-
-    function refreshInbox() {
-
-        if (!token) {
-            alert("Generate an email first!");
-            return;
-        }
-
-        checkInbox();
-
-        document.getElementById("status").innerText =
-            "Inbox refreshed";
-    }
-
-    function startTimer() {
-
-        time = 600;
-
-        updateTimer();
-
-        countdown = setInterval(() => {
-
-            time--;
-
-            updateTimer();
-
-            if (time <= 0) {
-
-                clearInterval(countdown);
-                clearInterval(inboxTimer);
-
-                document.getElementById("timer").innerText =
-                    "Expired";
-
-                document.getElementById("status").innerText =
-                    "Mailbox session expired";
-            }
-
-        }, 1000);
-    }
-
-    function updateTimer() {
-
-        const minutes =
-            Math.floor(time / 60);
-
-        const seconds =
-            time % 60;
-
-        document.getElementById("timer").innerText =
-            "Time left: " +
-            minutes +
-            ":" +
-            (seconds < 10 ? "0" + seconds : seconds);
-    }
 </script>
 
 </body>
