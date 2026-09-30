@@ -178,6 +178,7 @@ async function checkInbox() {
         const inbox = document.getElementById("inbox");
 
         const messages = data.emails || [];
+        console.log("FULL EMAIL DATA:", data.emails);
 
         if (messages.length === 0) {
 
