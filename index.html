@@ -102,7 +102,29 @@ button {
 <script>
 
 const API = "https://mailboxtemp.com";
+// Store which messages have been read
+function isMessageRead(messageId) {
+    const readMessages = JSON.parse(
+        localStorage.getItem("readMessages") || "[]"
+    );
 
+    return readMessages.includes(String(messageId));
+}
+
+function markMessageAsRead(messageId) {
+    const readMessages = JSON.parse(
+        localStorage.getItem("readMessages") || "[]"
+    );
+
+    if (!readMessages.includes(String(messageId))) {
+        readMessages.push(String(messageId));
+    }
+
+    localStorage.setItem(
+        "readMessages",
+        JSON.stringify(readMessages)
+    );
+}
 let currentEmail = null;
 let countdown;
 let inboxTimer;
