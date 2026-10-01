@@ -516,16 +516,17 @@ async function checkInbox() {
 
                 <span style="color:#555;">
 
-                    ${escapeHtml(
-                        message.body ||
-                        message.text ||
-                        message.content ||
-                        message.html ||
-                        message.text_body ||
-                        message.body_text ||
-                        message.message ||
-                        "No message content available."
-                    )}
+                ${escapeHtml(
+    message.preview ||
+    message.snippet ||
+    message.body ||
+    message.text ||
+    message.content ||
+    message.text_body ||
+    message.body_text ||
+    message.message ||
+    "Message received — click to open."
+)}
 
                 </span>
 
