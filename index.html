@@ -332,13 +332,28 @@ async function checkInbox() {
             </div>
         `;
 
-        document.body.appendChild(fullMessage);
+    document.body.appendChild(fullMessage);
 
-        fullMessage.querySelector("button").onclick =
-            function() {
-                fullMessage.remove();
-            };
+const closeButton = fullMessage.querySelector("button");
 
+closeButton.onclick = function() {
+    fullMessage.remove();
+};
+
+const deleteButton = document.createElement("button");
+
+deleteButton.textContent = "🗑️ Delete Message";
+
+deleteButton.style.width = "100%";
+deleteButton.style.marginTop = "10px";
+deleteButton.style.background = "#c62828";
+
+deleteButton.onclick = function() {
+    fullMessage.remove();
+    div.remove();
+};
+
+fullMessage.querySelector("div").appendChild(deleteButton);
     } catch (error) {
 
         console.error(error);
