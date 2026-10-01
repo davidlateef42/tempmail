@@ -328,7 +328,8 @@ if (!isMessageRead(message.id)) {
         }
 
         const email = data.email;
-
+markMessageAsRead(message.id);
+div.style.borderLeft = "";
         const fullMessage = document.createElement("div");
 
         fullMessage.style.position = "fixed";
