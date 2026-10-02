@@ -9,10 +9,6 @@
 
 <style>
 
-/* ========================================
-   GLOBAL
-======================================== */
-
 * {
     box-sizing: border-box;
 }
@@ -26,23 +22,15 @@ body {
     padding: 25px 15px;
 }
 
-/* ========================================
-   MAIN CONTAINER
-======================================== */
-
 .container {
     width: 100%;
     max-width: 720px;
     margin: auto;
-    background: rgba(255,255,255,0.96);
+    background: rgba(255,255,255,0.97);
     padding: 30px;
     border-radius: 24px;
     box-shadow: 0 15px 45px rgba(15,23,42,0.12);
 }
-
-/* ========================================
-   HEADER
-======================================== */
 
 .logo {
     text-align: center;
@@ -63,10 +51,6 @@ h1 {
     margin: 8px 0 25px;
     font-size: 15px;
 }
-
-/* ========================================
-   EMAIL CARD
-======================================== */
 
 .email-card {
     background: linear-gradient(135deg, #111827, #263449);
@@ -92,10 +76,6 @@ h1 {
     word-break: break-all;
 }
 
-/* ========================================
-   TIMER
-======================================== */
-
 .timer-section {
     text-align: center;
     margin: 22px 0;
@@ -113,10 +93,6 @@ h1 {
     color: #111827;
     letter-spacing: 2px;
 }
-
-/* ========================================
-   BUTTONS
-======================================== */
 
 .button-row {
     display: flex;
@@ -138,13 +114,19 @@ button {
     color: white;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     transform: translateY(-1px);
     opacity: 0.92;
 }
 
-button:active {
+button:active:not(:disabled) {
     transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .generate-btn {
@@ -159,10 +141,6 @@ button:active {
     background: #7c3aed;
 }
 
-/* ========================================
-   STATUS
-======================================== */
-
 .status {
     text-align: center;
     background: #f8fafc;
@@ -172,11 +150,11 @@ button:active {
     border-radius: 10px;
     font-size: 14px;
     margin: 15px 0 25px;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-/* ========================================
-   INBOX HEADER
-======================================== */
 
 .inbox-header {
     display: flex;
@@ -212,10 +190,6 @@ button:active {
     font-size: 12px;
     margin: 10px 0;
 }
-
-/* ========================================
-   INBOX
-======================================== */
 
 #inbox {
     color: #64748b;
@@ -281,10 +255,6 @@ button:active {
     margin-top: 12px;
 }
 
-/* ========================================
-   EMPTY INBOX
-======================================== */
-
 .empty-inbox {
     text-align: center;
     padding: 35px 15px;
@@ -295,10 +265,6 @@ button:active {
     font-size: 38px;
     margin-bottom: 8px;
 }
-
-/* ========================================
-   MESSAGE MODAL
-======================================== */
 
 .message-overlay {
     position: fixed;
@@ -364,20 +330,12 @@ button:active {
     background: #dc2626;
 }
 
-/* ========================================
-   FOOTER
-======================================== */
-
 .footer {
     text-align: center;
     color: #94a3b8;
     font-size: 12px;
     margin-top: 25px;
 }
-
-/* ========================================
-   MOBILE
-======================================== */
 
 @media (max-width: 600px) {
 
@@ -408,7 +366,6 @@ button:active {
 
     .button-row button {
         width: 100%;
-        margin: 0;
     }
 
     .timer {
@@ -423,7 +380,6 @@ button:active {
     .modal-buttons {
         flex-direction: column;
     }
-
 }
 
 </style>
@@ -433,8 +389,6 @@ button:active {
 
 <div class="container">
 
-    <!-- HEADER -->
-
     <div class="logo">📧</div>
 
     <h1>Temp Mail Pro</h1>
@@ -442,9 +396,6 @@ button:active {
     <p class="subtitle">
         Fast, simple and temporary email
     </p>
-
-
-    <!-- EMAIL -->
 
     <div class="email-card">
 
@@ -458,9 +409,6 @@ button:active {
 
     </div>
 
-
-    <!-- TIMER -->
-
     <div class="timer-section">
 
         <div class="timer-label">
@@ -473,24 +421,24 @@ button:active {
 
     </div>
 
-
-    <!-- BUTTONS -->
-
     <div class="button-row">
 
         <button
+            id="generateBtn"
             class="generate-btn"
             onclick="generateEmail()">
             ✨ Generate Email
         </button>
 
         <button
+            id="copyBtn"
             class="copy-btn"
             onclick="copyEmail()">
             📋 Copy Email
         </button>
 
         <button
+            id="refreshBtn"
             class="refresh-btn"
             onclick="refreshInbox()">
             🔄 Refresh Inbox
@@ -498,15 +446,9 @@ button:active {
 
     </div>
 
-
-    <!-- STATUS -->
-
     <div class="status" id="status">
         No email generated yet.
     </div>
-
-
-    <!-- INBOX -->
 
     <div class="inbox-header">
 
@@ -518,7 +460,6 @@ button:active {
                 id="inboxCount">
                 0
             </span>
-
         </h2>
 
     </div>
@@ -543,42 +484,86 @@ button:active {
 
     </div>
 
-
     <div class="footer">
         Temp Mail Pro • Temporary email made simple
     </div>
 
 </div>
 
-
 <script>
 
 const API = "https://mailboxtemp.com";
 
+let currentEmail = null;
+let countdown = null;
+let inboxTimer = null;
+let emailExpired = false;
 
-// ========================================
-// READ / UNREAD SYSTEM
-// ========================================
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+const generateBtn =
+    document.getElementById("generateBtn");
+
+const copyBtn =
+    document.getElementById("copyBtn");
+
+const refreshBtn =
+    document.getElementById("refreshBtn");
+
+
+function setButtonsDisabled(disabled) {
+
+    generateBtn.disabled = disabled;
+    copyBtn.disabled = disabled;
+    refreshBtn.disabled = disabled;
+
+}
+
+
+/* ========================================
+   STATUS
+======================================== */
+
+function setStatus(message) {
+
+    document.getElementById("status")
+        .textContent = message;
+
+}
+
+
+/* ========================================
+   READ / UNREAD
+======================================== */
 
 function isMessageRead(messageId) {
 
-    const readMessages = JSON.parse(
-        localStorage.getItem("readMessages") || "[]"
-    );
+    const readMessages =
+        JSON.parse(
+            localStorage.getItem("readMessages") || "[]"
+        );
 
-    return readMessages.includes(String(messageId));
+    return readMessages.includes(
+        String(messageId)
+    );
 }
 
 
 function markMessageAsRead(messageId) {
 
-    const readMessages = JSON.parse(
-        localStorage.getItem("readMessages") || "[]"
-    );
+    const readMessages =
+        JSON.parse(
+            localStorage.getItem("readMessages") || "[]"
+        );
 
     if (!readMessages.includes(String(messageId))) {
 
-        readMessages.push(String(messageId));
+        readMessages.push(
+            String(messageId)
+        );
 
     }
 
@@ -586,40 +571,36 @@ function markMessageAsRead(messageId) {
         "readMessages",
         JSON.stringify(readMessages)
     );
+
 }
 
 
-// ========================================
-// MAIN VARIABLES
-// ========================================
-
-let currentEmail = null;
-
-let countdown;
-
-let inboxTimer;
-
-
-// ========================================
-// GENERATE EMAIL
-// ========================================
+/* ========================================
+   GENERATE EMAIL
+======================================== */
 
 async function generateEmail() {
 
-    const status =
-        document.getElementById("status");
+    if (generateBtn.disabled) return;
 
-    status.textContent =
-        "Creating your temporary email...";
+    setButtonsDisabled(true);
+
+    setStatus(
+        "Creating your temporary email..."
+    );
 
     try {
 
-        const response = await fetch(
-            API + "/api/inbox/generate",
-            {
-                method: "POST"
-            }
-        );
+        clearInterval(inboxTimer);
+        clearInterval(countdown);
+
+        const response =
+            await fetch(
+                API + "/api/inbox/generate",
+                {
+                    method: "POST"
+                }
+            );
 
         const data =
             await response.json();
@@ -628,7 +609,7 @@ async function generateEmail() {
 
             throw new Error(
                 data.error ||
-                "Could not create inbox"
+                "Could not create inbox."
             );
 
         }
@@ -636,12 +617,11 @@ async function generateEmail() {
         currentEmail =
             data.address;
 
+        emailExpired = false;
+
         document.getElementById("email")
             .textContent =
             currentEmail;
-
-        status.textContent =
-            "Email created successfully!";
 
         document.getElementById("inbox")
             .innerHTML = `
@@ -652,18 +632,18 @@ async function generateEmail() {
             `;
 
         document.getElementById("inboxCount")
-            .textContent =
-            "0";
+            .textContent = "0";
 
         document.getElementById("lastChecked")
-            .textContent =
-            "Not checked yet";
+            .textContent = "Not checked yet";
 
         startTimer(3600);
 
-        await checkInbox();
+        setStatus(
+            "Email created successfully!"
+        );
 
-        clearInterval(inboxTimer);
+        await checkInbox();
 
         inboxTimer =
             setInterval(
@@ -675,30 +655,41 @@ async function generateEmail() {
 
         console.error(error);
 
-        status.textContent =
+        setStatus(
             "Could not create email: " +
-            error.message;
+            error.message
+        );
+
+    } finally {
+
+        setButtonsDisabled(false);
 
     }
 
 }
 
 
-// ========================================
-// CHECK INBOX
-// ========================================
+/* ========================================
+   CHECK INBOX
+======================================== */
 
 async function checkInbox() {
 
-    if (!currentEmail) return;
+    if (!currentEmail || emailExpired) {
+        return;
+    }
 
     try {
 
-        const response = await fetch(
-            API + "/api/inbox/" +
-            encodeURIComponent(currentEmail) +
-            "/emails"
-        );
+        const response =
+            await fetch(
+                API +
+                "/api/inbox/" +
+                encodeURIComponent(
+                    currentEmail
+                ) +
+                "/emails"
+            );
 
         const data =
             await response.json();
@@ -707,42 +698,30 @@ async function checkInbox() {
 
             throw new Error(
                 data.error ||
-                "Inbox error"
+                "Inbox error."
             );
 
         }
 
-        const inbox =
-            document.getElementById("inbox");
-
         const messages =
             data.emails || [];
 
-
-        // ========================================
-        // LAST CHECKED
-        // ========================================
-
-        const now =
-            new Date();
-
-        document.getElementById("lastChecked")
-            .textContent =
+        document.getElementById(
+            "lastChecked"
+        ).textContent =
             "Last checked: " +
-            now.toLocaleTimeString();
+            new Date().toLocaleTimeString();
 
-
-        // ========================================
-        // NO MESSAGES
-        // ========================================
 
         if (messages.length === 0) {
 
-            document.getElementById("inboxCount")
-                .textContent =
-                "0";
+            document.getElementById(
+                "inboxCount"
+            ).textContent = "0";
 
-            inbox.innerHTML = `
+            document.getElementById(
+                "inbox"
+            ).innerHTML = `
                 <div class="empty-inbox">
 
                     <div class="empty-icon">
@@ -757,13 +736,8 @@ async function checkInbox() {
             `;
 
             return;
-
         }
 
-
-        // ========================================
-        // COUNT UNREAD
-        // ========================================
 
         const unreadCount =
             messages.filter(
@@ -772,29 +746,26 @@ async function checkInbox() {
             ).length;
 
 
-        document.getElementById("inboxCount")
-            .textContent =
+        document.getElementById(
+            "inboxCount"
+        ).textContent =
             unreadCount;
 
 
-        // ========================================
-        // CLEAR INBOX
-        // ========================================
+        const inbox =
+            document.getElementById("inbox");
 
         inbox.innerHTML = "";
 
-
-        // ========================================
-        // DISPLAY MESSAGES
-        // ========================================
 
         messages.forEach(message => {
 
             const div =
                 document.createElement("div");
 
-            div.className =
-                "message";
+            div.className = "message";
+
+            div.style.cursor = "pointer";
 
 
             const unread =
@@ -809,23 +780,11 @@ async function checkInbox() {
             }
 
 
-            div.style.cursor =
-                "pointer";
-
-
-            // ========================================
-            // NEW LABEL
-            // ========================================
-
             const newLabel =
                 unread
                 ? '<span class="new-label">NEW</span>'
                 : "";
 
-
-            // ========================================
-            // RECEIVED TIME
-            // ========================================
 
             const receivedValue =
                 message.received_at ||
@@ -855,10 +814,6 @@ async function checkInbox() {
 
             }
 
-
-            // ========================================
-            // MESSAGE PREVIEW
-            // ========================================
 
             const preview =
                 message.preview ||
@@ -920,9 +875,9 @@ async function checkInbox() {
             `;
 
 
-            // ========================================
-            // DELETE BUTTON
-            // ========================================
+            /* ========================================
+               INBOX DELETE
+            ======================================== */
 
             const inboxDeleteButton =
                 document.createElement("button");
@@ -967,44 +922,42 @@ async function checkInbox() {
 
                             throw new Error(
                                 data.error ||
-                                "Could not delete email"
+                                "Could not delete email."
                             );
 
                         }
 
                         div.remove();
 
+                        if (unread) {
 
-                        const currentCount =
-                            parseInt(
-                                document
-                                .getElementById(
-                                    "inboxCount"
-                                )
-                                .textContent
-                            ) || 0;
+                            const count =
+                                parseInt(
+                                    document.getElementById(
+                                        "inboxCount"
+                                    ).textContent
+                                ) || 0;
 
-
-                        if (
-                            unread &&
-                            currentCount > 0
-                        ) {
-
-                            document
-                            .getElementById(
+                            document.getElementById(
                                 "inboxCount"
-                            )
-                            .textContent =
-                            currentCount - 1;
+                            ).textContent =
+                                Math.max(
+                                    0,
+                                    count - 1
+                                );
 
                         }
+
+                        setStatus(
+                            "Message deleted."
+                        );
 
                     } catch (error) {
 
                         console.error(error);
 
-                        alert(
-                            "Could not delete this email: " +
+                        setStatus(
+                            "Could not delete message: " +
                             error.message
                         );
 
@@ -1018,14 +971,19 @@ async function checkInbox() {
             );
 
 
-            // ========================================
-            // OPEN MESSAGE
-            // ========================================
+            /* ========================================
+               OPEN MESSAGE
+            ======================================== */
 
             div.onclick =
                 async function() {
 
                     try {
+
+                        setStatus(
+                            "Opening message..."
+                        );
+
 
                         const response =
                             await fetch(
@@ -1052,7 +1010,7 @@ async function checkInbox() {
 
                             throw new Error(
                                 data.error ||
-                                "Could not open email"
+                                "Could not open email."
                             );
 
                         }
@@ -1061,10 +1019,6 @@ async function checkInbox() {
                         const email =
                             data.email;
 
-
-                        // ========================================
-                        // MARK READ
-                        // ========================================
 
                         markMessageAsRead(
                             message.id
@@ -1087,7 +1041,7 @@ async function checkInbox() {
                             ) || 0;
 
 
-                        if (currentCount > 0) {
+                        if (unread && currentCount > 0) {
 
                             countElement.textContent =
                                 currentCount - 1;
@@ -1095,9 +1049,9 @@ async function checkInbox() {
                         }
 
 
-                        // ========================================
-                        // MESSAGE OVERLAY
-                        // ========================================
+                        /* ========================================
+                           OVERLAY
+                        ======================================== */
 
                         const fullMessage =
                             document.createElement(
@@ -1107,10 +1061,6 @@ async function checkInbox() {
                         fullMessage.className =
                             "message-overlay";
 
-
-                        // ========================================
-                        // MESSAGE WINDOW
-                        // ========================================
 
                         const messageWindow =
                             document.createElement(
@@ -1142,7 +1092,6 @@ async function checkInbox() {
                                     email.otp_code
                                     ? `
                                         <br>
-
                                         <strong>
                                             OTP:
                                         </strong>
@@ -1170,10 +1119,6 @@ async function checkInbox() {
                         `;
 
 
-                        // ========================================
-                        // MODAL BUTTONS
-                        // ========================================
-
                         const modalButtons =
                             document.createElement(
                                 "div"
@@ -1183,7 +1128,9 @@ async function checkInbox() {
                             "modal-buttons";
 
 
-                        // CLOSE
+                        /* ========================================
+                           CLOSE
+                        ======================================== */
 
                         const closeButton =
                             document.createElement(
@@ -1205,7 +1152,9 @@ async function checkInbox() {
                             };
 
 
-                        // DELETE
+                        /* ========================================
+                           DELETE
+                        ======================================== */
 
                         const deleteButton =
                             document.createElement(
@@ -1221,6 +1170,12 @@ async function checkInbox() {
 
                         deleteButton.onclick =
                             async function() {
+
+                                deleteButton.disabled =
+                                    true;
+
+                                deleteButton.textContent =
+                                    "Deleting...";
 
                                 try {
 
@@ -1253,7 +1208,7 @@ async function checkInbox() {
 
                                         throw new Error(
                                             data.error ||
-                                            "Could not delete email"
+                                            "Could not delete email."
                                         );
 
                                     }
@@ -1263,14 +1218,24 @@ async function checkInbox() {
 
                                     div.remove();
 
+                                    setStatus(
+                                        "Message deleted successfully."
+                                    );
+
                                 } catch (error) {
 
                                     console.error(
                                         error
                                     );
 
-                                    alert(
-                                        "Could not delete this email: " +
+                                    deleteButton.disabled =
+                                        false;
+
+                                    deleteButton.textContent =
+                                        "🗑️ Delete Message";
+
+                                    setStatus(
+                                        "Could not delete message: " +
                                         error.message
                                     );
 
@@ -1303,7 +1268,9 @@ async function checkInbox() {
                         );
 
 
-                        // Close when clicking outside
+                        /* ========================================
+                           CLICK OUTSIDE TO CLOSE
+                        ======================================== */
 
                         fullMessage.onclick =
                             function(event) {
@@ -1320,11 +1287,37 @@ async function checkInbox() {
                             };
 
 
+                        /* ========================================
+                           ESC KEY
+                        ======================================== */
+
+                        function closeWithEscape(event) {
+
+                            if (event.key === "Escape") {
+
+                                fullMessage.remove();
+
+                                document.removeEventListener(
+                                    "keydown",
+                                    closeWithEscape
+                                );
+
+                            }
+
+                        }
+
+
+                        document.addEventListener(
+                            "keydown",
+                            closeWithEscape
+                        );
+
+
                     } catch (error) {
 
                         console.error(error);
 
-                        alert(
+                        setStatus(
                             "Could not open this email: " +
                             error.message
                         );
@@ -1338,18 +1331,31 @@ async function checkInbox() {
 
         });
 
+
+        setStatus(
+            messages.length +
+            (messages.length === 1
+                ? " message"
+                : " messages") +
+            " in inbox."
+        );
+
     } catch (error) {
 
         console.error(error);
+
+        setStatus(
+            "Inbox connection error. Retrying automatically..."
+        );
 
     }
 
 }
 
 
-// ========================================
-// ESCAPE HTML
-// ========================================
+/* ========================================
+   ESCAPE HTML
+======================================== */
 
 function escapeHtml(text) {
 
@@ -1357,22 +1363,22 @@ function escapeHtml(text) {
         document.createElement("div");
 
     div.textContent =
-        text;
+        String(text);
 
     return div.innerHTML;
 
 }
 
 
-// ========================================
-// COPY EMAIL
-// ========================================
+/* ========================================
+   COPY EMAIL
+======================================== */
 
-function copyEmail() {
+async function copyEmail() {
 
     if (!currentEmail) {
 
-        alert(
+        setStatus(
             "Generate an email first."
         );
 
@@ -1380,58 +1386,114 @@ function copyEmail() {
 
     }
 
-    navigator.clipboard.writeText(
-        currentEmail
-    );
+    try {
 
-    document.getElementById("status")
-        .textContent =
-        "Email copied!";
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(
+                currentEmail
+            );
+
+        } else {
+
+            const textarea =
+                document.createElement("textarea");
+
+            textarea.value =
+                currentEmail;
+
+            textarea.style.position =
+                "fixed";
+
+            textarea.style.opacity =
+                "0";
+
+            document.body.appendChild(
+                textarea
+            );
+
+            textarea.select();
+
+            document.execCommand("copy");
+
+            textarea.remove();
+
+        }
+
+        setStatus(
+            "Email copied!"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        setStatus(
+            "Could not copy email automatically."
+        );
+
+    }
 
 }
 
 
-// ========================================
-// MANUAL REFRESH
-// ========================================
+/* ========================================
+   REFRESH INBOX
+======================================== */
 
-function refreshInbox() {
+async function refreshInbox() {
 
     if (!currentEmail) {
 
-        document.getElementById("status")
-            .textContent =
-            "Generate an email first.";
+        setStatus(
+            "Generate an email first."
+        );
 
         return;
 
     }
 
-    document.getElementById("status")
-        .textContent =
-        "Refreshing inbox...";
+    if (emailExpired) {
 
-    checkInbox().then(() => {
+        setStatus(
+            "This email has expired. Generate a new one."
+        );
 
-        document.getElementById("status")
-            .textContent =
-            "Inbox refreshed!";
+        return;
 
-    });
+    }
+
+    refreshBtn.disabled = true;
+
+    setStatus(
+        "Refreshing inbox..."
+    );
+
+    try {
+
+        await checkInbox();
+
+    } finally {
+
+        refreshBtn.disabled = false;
+
+    }
 
 }
 
 
-// ========================================
-// TIMER
-// ========================================
+/* ========================================
+   TIMER
+======================================== */
 
 function startTimer(seconds) {
 
     clearInterval(countdown);
 
     updateTimer(seconds);
-
 
     countdown =
         setInterval(() => {
@@ -1443,18 +1505,20 @@ function startTimer(seconds) {
 
             if (seconds <= 0) {
 
-                clearInterval(
-                    countdown
-                );
+                clearInterval(countdown);
 
-                clearInterval(
-                    inboxTimer
+                clearInterval(inboxTimer);
+
+                emailExpired = true;
+
+                setStatus(
+                    "This temporary email has expired. Generate a new email to continue."
                 );
 
                 document.getElementById(
-                    "status"
+                    "timer"
                 ).textContent =
-                    "This temporary email has expired.";
+                    "00:00";
 
             }
 
@@ -1463,9 +1527,9 @@ function startTimer(seconds) {
 }
 
 
-// ========================================
-// UPDATE TIMER
-// ========================================
+/* ========================================
+   UPDATE TIMER
+======================================== */
 
 function updateTimer(seconds) {
 
