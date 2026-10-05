@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://davidlateef42.github.io/tempmail/sitemap.xml
