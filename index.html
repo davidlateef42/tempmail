@@ -6,174 +6,307 @@
 
 <title>Temp Mail Pro</title>
 
-    <style>
+<style>
+
+/* =========================
+   RESET
+========================= */
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     min-height: 100vh;
-    background:
-        radial-gradient(circle at top left, #1e3a8a 0%, transparent 35%),
-        radial-gradient(circle at bottom right, #312e81 0%, transparent 35%),
-        #0f172a;
-    color: #f8fafc;
     padding: 30px 15px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: #f8fafc;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #1e3a8a 0%,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            #312e81 0%,
+            transparent 35%
+        ),
+        #0f172a;
 }
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
 
 .container {
     width: 100%;
     max-width: 850px;
-    margin: auto;
-    background: rgba(15, 23, 42, 0.92);
-    border: 1px solid rgba(255,255,255,0.10);
+    margin: 0 auto;
+
     padding: 35px;
+
+    background: rgba(15, 23, 42, 0.94);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
     border-radius: 28px;
-    box-shadow: 0 25px 80px rgba(0,0,0,0.35);
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.35);
 }
 
-/* HEADER */
+
+/* =========================
+   HEADER
+========================= */
 
 .logo {
-    text-align: center;
-    font-size: 52px;
-    margin-bottom: 8px;
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 34px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.35);
 }
 
 h1 {
-    text-align: center;
     margin: 0;
-    font-size: 38px;
-    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 800;
+
     letter-spacing: -1px;
 }
 
 .subtitle {
-    text-align: center;
-    color: #94a3b8;
     margin: 10px 0 30px;
+
+    text-align: center;
+
+    color: #94a3b8;
+
     font-size: 16px;
 }
 
-/* HOW IT WORKS */
+
+/* =========================
+   HOW IT WORKS
+========================= */
 
 .how-section {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
     gap: 15px;
+
     margin-bottom: 30px;
 }
 
 .how-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 18px;
-    padding: 20px 14px;
+    padding: 20px 15px;
+
     text-align: center;
-    transition: 0.25s;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
 }
 
 .how-card:hover {
-    transform: translateY(-4px);
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(96,165,250,0.6);
+    transform: translateY(-3px);
+
+    background:
+        rgba(255, 255, 255, 0.07);
 }
 
 .how-icon {
-    font-size: 30px;
     margin-bottom: 10px;
+
+    font-size: 27px;
 }
 
 .how-card strong {
     display: block;
-    font-size: 15px;
-    color: #ffffff;
+
     margin-bottom: 7px;
+
+    font-size: 15px;
 }
 
 .how-card span {
+    display: block;
+
     color: #94a3b8;
-    font-size: 12px;
+
+    font-size: 13px;
+
     line-height: 1.5;
 }
 
-/* EMAIL CARD */
+
+/* =========================
+   EMAIL CARD
+========================= */
 
 .email-card {
-    background: linear-gradient(135deg, #1e293b, #111827);
-    color: white;
-    padding: 25px;
+    padding: 24px;
+
     border-radius: 20px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37, 99, 235, 0.12),
+            rgba(124, 58, 237, 0.12)
+        );
+
+    border:
+        1px solid rgba(96, 165, 250, 0.20);
 }
 
 .email-label {
-    font-size: 13px;
-    color: #94a3b8;
     margin-bottom: 10px;
-    letter-spacing: 0.5px;
+
+    color: #93c5fd;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
 }
 
 .email-box {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.18);
+    width: 100%;
+
     padding: 17px;
-    border-radius: 13px;
-    text-align: center;
-    font-size: 18px;
+
+    overflow-wrap: anywhere;
+
     color: #ffffff;
-    word-break: break-all;
+
+    background:
+        rgba(0, 0, 0, 0.22);
+
+    border-radius: 13px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    font-size: 17px;
+    font-weight: 600;
+
+    text-align: center;
 }
 
-/* TIMER */
+
+/* =========================
+   TIMER
+========================= */
 
 .timer-section {
-    text-align: center;
     margin: 25px 0;
+
+    text-align: center;
 }
 
 .timer-label {
+    margin-bottom: 7px;
+
     color: #94a3b8;
-    font-size: 13px;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
 }
 
 .timer {
-    font-size: 40px;
-    font-weight: bold;
-    color: #60a5fa;
-    letter-spacing: 3px;
+    font-size: 42px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #ffffff;
 }
 
-/* BUTTONS */
+.timer.expired {
+    color: #f87171;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 .button-row {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 22px 0;
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
 }
 
 button {
-    border: none;
-    padding: 13px 19px;
-    border-radius: 11px;
+    border: 0;
+
+    font-family: inherit;
+
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: 0.2s;
-    color: white;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        filter 0.15s ease;
 }
 
 button:hover:not(:disabled) {
     transform: translateY(-2px);
+
     filter: brightness(1.08);
 }
 
@@ -182,280 +315,528 @@ button:active:not(:disabled) {
 }
 
 button:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
+
     cursor: not-allowed;
 }
 
+.generate-btn,
+.copy-btn,
+.refresh-btn {
+    min-height: 52px;
+
+    padding: 14px 15px;
+
+    border-radius: 14px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .generate-btn {
-    background: #2563eb;
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
 }
 
 .copy-btn {
-    background: #059669;
+    background:
+        linear-gradient(
+            135deg,
+            #059669,
+            #0d9488
+        );
 }
 
 .refresh-btn {
-    background: #7c3aed;
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #9333ea
+        );
 }
 
-/* STATUS */
+
+/* =========================
+   STATUS
+========================= */
 
 .status {
-    text-align: center;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.10);
-    color: #94a3b8;
-    padding: 13px;
-    border-radius: 11px;
-    font-size: 14px;
-    margin: 15px 0 28px;
-    min-height: 44px;
+    min-height: 48px;
+
+    margin-bottom: 25px;
+
+    padding: 14px 16px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    text-align: center;
+
+    color: #cbd5e1;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 13px;
+
+    font-size: 14px;
 }
 
-/* INBOX */
+
+/* =========================
+   INBOX HEADER
+========================= */
 
 .inbox-header {
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.10);
-    padding-bottom: 13px;
+    justify-content: space-between;
+
+    margin-bottom: 4px;
 }
 
 .inbox-header h2 {
     margin: 0;
-    font-size: 23px;
-    color: #ffffff;
+
+    font-size: 22px;
 }
 
 .inbox-count {
     display: inline-flex;
+
+    min-width: 27px;
+    height: 27px;
+
+    margin-left: 5px;
+
     align-items: center;
     justify-content: center;
-    min-width: 28px;
-    height: 28px;
+
+    padding: 0 7px;
+
+    border-radius: 50%;
+
     background: #2563eb;
-    color: white;
-    padding: 4px 9px;
-    border-radius: 50px;
-    font-size: 13px;
-    margin-left: 5px;
+
+    font-size: 12px;
 }
 
 .last-checked {
-    text-align: right;
+    margin-bottom: 15px;
+
     color: #64748b;
+
     font-size: 12px;
-    margin: 10px 0;
 }
 
+
+/* =========================
+   INBOX
+========================= */
+
 #inbox {
-    color: #94a3b8;
-    line-height: 1.5;
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
 }
+
+.empty-inbox {
+    padding: 40px 20px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px dashed rgba(255, 255, 255, 0.10);
+
+    border-radius: 18px;
+
+    line-height: 1.7;
+}
+
+.empty-icon {
+    margin-bottom: 10px;
+
+    font-size: 35px;
+}
+
+
+/* =========================
+   MESSAGE CARD
+========================= */
 
 .message {
     position: relative;
-    background: rgba(255,255,255,0.045);
-    border: 1px solid rgba(255,255,255,0.10);
-    padding: 18px;
-    margin: 12px 0;
-    border-radius: 15px;
-    transition: 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+
+    padding: 20px;
+
+    color: #e2e8f0;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 18px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .message:hover {
     transform: translateY(-2px);
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(96,165,250,0.4);
+
+    background:
+        rgba(255, 255, 255, 0.065);
+
+    border-color:
+        rgba(96, 165, 250, 0.25);
 }
 
 .message strong {
     color: #ffffff;
+
+    font-size: 16px;
 }
 
 .message-preview {
     display: block;
-    margin-top: 8px;
+
+    margin-top: 12px;
+
     color: #94a3b8;
-    word-break: break-word;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
 
 .message-open {
-    display: inline-block;
+    display: block;
+
     margin-top: 12px;
+
     color: #60a5fa;
-    font-weight: bold;
+
     font-size: 13px;
+    font-weight: 700;
+}
+
+.received-time {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 12px;
 }
 
 .new-label {
     display: inline-block;
+
+    margin-left: 8px;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    color: #ffffff;
+
     background: #2563eb;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 20px;
+
     font-size: 10px;
-    margin-left: 5px;
+    font-weight: 800;
 }
 
-.received-time {
-    color: #64748b;
-    font-size: 12px;
-}
+
+/* =========================
+   INBOX DELETE
+========================= */
 
 .inbox-delete {
-    background: #dc2626 !important;
+    margin-top: 15px;
+
+    padding: 9px 13px;
+
+    border-radius: 10px;
+
+    color: #fecaca;
+
+    background:
+        rgba(239, 68, 68, 0.12);
+
+    border:
+        1px solid rgba(239, 68, 68, 0.18);
+
     font-size: 12px;
-    padding: 9px 12px;
-    margin-top: 12px;
+    font-weight: 700;
 }
 
-/* EMPTY INBOX */
-
-.empty-inbox {
-    text-align: center;
-    padding: 45px 15px;
-    color: #64748b;
+.inbox-delete:hover:not(:disabled) {
+    background:
+        rgba(239, 68, 68, 0.22);
 }
 
-.empty-icon {
-    font-size: 42px;
-    margin-bottom: 10px;
-}
 
-/* MESSAGE POPUP */
+/* =========================
+   MESSAGE MODAL
+========================= */
 
 .message-overlay {
     position: fixed;
+
     inset: 0;
-    background: rgba(2,6,23,0.82);
+
+    z-index: 9999;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     padding: 20px;
-    z-index: 9999;
+
+    background:
+        rgba(2, 6, 23, 0.78);
+
+    backdrop-filter:
+        blur(7px);
 }
 
 .message-window {
-    background: #111827;
-    color: #ffffff;
     width: 100%;
-    max-width: 600px;
-    max-height: 85vh;
+
+    max-width: 650px;
+
+    max-height: 90vh;
+
     overflow-y: auto;
-    padding: 27px;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+
+    padding: 28px;
+
+    border-radius: 22px;
+
+    color: #e2e8f0;
+
+    background:
+        #111827;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+    box-shadow:
+        0 30px 100px rgba(0, 0, 0, 0.55);
 }
 
 .message-window h2 {
     margin-top: 0;
+    margin-bottom: 15px;
+
     color: #ffffff;
-    word-break: break-word;
+
+    font-size: 23px;
+
+    overflow-wrap: anywhere;
 }
 
 .message-info {
-    color: #94a3b8;
-    font-size: 14px;
+    margin-bottom: 20px;
+
+    padding: 15px;
+
+    color: #cbd5e1;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    border-radius: 12px;
+
+    font-size: 13px;
+
     line-height: 1.7;
+
+    overflow-wrap: anywhere;
 }
 
 .message-body {
-    background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.10);
-    padding: 17px;
-    border-radius: 12px;
+    min-height: 120px;
+
+    padding: 18px;
+
     white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+
+    color: #e2e8f0;
+
+    background:
+        #0f172a;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 13px;
+
     line-height: 1.7;
-    color: #cbd5e1;
-    word-break: break-word;
-    margin-top: 15px;
+
+    font-size: 14px;
 }
+
+
+/* =========================
+   MODAL BUTTONS
+========================= */
 
 .modal-buttons {
     display: flex;
+
     gap: 10px;
-    margin-top: 18px;
+
+    margin-top: 20px;
 }
 
 .modal-buttons button {
     flex: 1;
+
+    min-height: 48px;
+
+    padding: 12px 15px;
+
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    font-weight: 700;
 }
 
 .close-btn {
-    background: #475569;
+    background:
+        #334155;
 }
 
 .delete-message-btn {
-    background: #dc2626;
+    background:
+        linear-gradient(
+            135deg,
+            #dc2626,
+            #b91c1c
+        );
 }
 
-/* INFO */
+
+/* =========================
+   ABOUT SECTION
+========================= */
 
 .info-section {
-    margin-top: 30px;
-    padding: 23px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 17px;
+    margin-top: 35px;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
 }
 
 .info-section h2 {
-    margin: 0 0 10px;
+    margin-top: 0;
+
     font-size: 20px;
-    color: #ffffff;
 }
 
 .info-section p {
-    margin: 8px 0;
     color: #94a3b8;
+
+    line-height: 1.7;
+
     font-size: 14px;
-    line-height: 1.6;
 }
 
 .info-list {
+    margin: 18px 0 0;
+
     padding-left: 20px;
-    color: #94a3b8;
+
+    color: #cbd5e1;
+
+    line-height: 2;
+    
     font-size: 14px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    margin-top: 30px;
+
+    padding-top: 22px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    font-size: 12px;
+
     line-height: 1.8;
 }
 
-/* FOOTER */
 
-.footer {
-    text-align: center;
-    color: #64748b;
-    font-size: 12px;
-    margin-top: 28px;
-    line-height: 1.7;
-}
+/* =========================
+   MOBILE
+========================= */
 
-/* MOBILE */
-
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     body {
-        padding: 12px;
+        padding: 15px 10px;
     }
 
     .container {
-        padding: 20px 15px;
-        border-radius: 20px;
-    }
+        padding: 22px 16px;
 
-    .logo {
-        font-size: 40px;
+        border-radius: 22px;
     }
 
     h1 {
-        font-size: 28px;
+        font-size: 29px;
     }
 
     .how-section {
@@ -463,28 +844,43 @@ button:disabled {
     }
 
     .how-card {
-        padding: 17px;
+        display: grid;
+
+        grid-template-columns: 45px 1fr;
+
+        column-gap: 10px;
+
+        text-align: left;
+
+        align-items: center;
     }
 
-    .email-box {
-        font-size: 16px;
+    .how-icon {
+        grid-row: span 2;
+
+        margin: 0;
+
+        text-align: center;
     }
 
     .button-row {
-        flex-direction: column;
-    }
-
-    .button-row button {
-        width: 100%;
+        grid-template-columns: 1fr;
     }
 
     .timer {
-        font-size: 32px;
+        font-size: 36px;
+    }
+
+    .email-card {
+        padding: 18px;
+    }
+
+    .email-box {
+        font-size: 15px;
     }
 
     .message-window {
         padding: 20px;
-        max-height: 90vh;
     }
 
     .modal-buttons {
@@ -492,8 +888,33 @@ button:disabled {
     }
 }
 
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 400px) {
+
+    .container {
+        padding: 18px 12px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .timer {
+        font-size: 32px;
+    }
+}
+
 </style>
 </head>
+
 
 <body>
 
@@ -501,37 +922,75 @@ button:disabled {
 
     <!-- HEADER -->
 
-    <div class="logo">📧</div>
+    <div class="logo">
+        📧
+    </div>
 
-    <h1>Temp Mail Pro</h1>
+    <h1>
+        Temp Mail Pro
+    </h1>
 
     <p class="subtitle">
         Fast, simple and temporary email
     </p>
+
 
     <!-- HOW IT WORKS -->
 
     <div class="how-section">
 
         <div class="how-card">
-            <div class="how-icon">✨</div>
-            <strong>Generate</strong>
-            <span>Create a temporary email instantly.</span>
+
+            <div class="how-icon">
+                ✨
+            </div>
+
+            <strong>
+                Generate
+            </strong>
+
+            <span>
+                Create a temporary email instantly.
+            </span>
+
         </div>
 
-        <div class="how-card">
-            <div class="how-icon">📋</div>
-            <strong>Copy</strong>
-            <span>Copy your temporary address with one click.</span>
-        </div>
 
         <div class="how-card">
-            <div class="how-icon">📬</div>
-            <strong>Receive</strong>
-            <span>Receive incoming messages in your inbox.</span>
+
+            <div class="how-icon">
+                📋
+            </div>
+
+            <strong>
+                Copy
+            </strong>
+
+            <span>
+                Copy your temporary address with one click.
+            </span>
+
+        </div>
+
+
+        <div class="how-card">
+
+            <div class="how-icon">
+                📬
+            </div>
+
+            <strong>
+                Receive
+            </strong>
+
+            <span>
+                Receive incoming messages in your inbox.
+            </span>
+
         </div>
 
     </div>
+
 
     <!-- EMAIL -->
 
@@ -541,11 +1000,15 @@ button:disabled {
             YOUR TEMPORARY EMAIL
         </div>
 
-        <div class="email-box" id="email">
+        <div
+            class="email-box"
+            id="email"
+        >
             Click "Generate Email"
         </div>
 
     </div>
+
 
     <!-- TIMER -->
 
@@ -555,11 +1018,15 @@ button:disabled {
             EMAIL EXPIRES IN
         </div>
 
-        <div class="timer" id="timer">
+        <div
+            class="timer"
+            id="timer"
+        >
             60:00
         </div>
 
     </div>
+
 
     <!-- BUTTONS -->
 
@@ -568,31 +1035,43 @@ button:disabled {
         <button
             id="generateBtn"
             class="generate-btn"
-            onclick="generateEmail()">
+            onclick="generateEmail()"
+        >
             ✨ Generate Email
         </button>
+
 
         <button
             id="copyBtn"
             class="copy-btn"
-            onclick="copyEmail()">
+            onclick="copyEmail()"
+            disabled
+        >
             📋 Copy Email
         </button>
+
 
         <button
             id="refreshBtn"
             class="refresh-btn"
-            onclick="refreshInbox()">
+            onclick="refreshInbox()"
+            disabled
+        >
             🔄 Refresh Inbox
         </button>
 
     </div>
 
+
     <!-- STATUS -->
 
-    <div class="status" id="status">
+    <div
+        class="status"
+        id="status"
+    >
         No email generated yet.
     </div>
+
 
     <!-- INBOX -->
 
@@ -603,7 +1082,8 @@ button:disabled {
 
             <span
                 class="inbox-count"
-                id="inboxCount">
+                id="inboxCount"
+            >
                 0
             </span>
 
@@ -611,11 +1091,14 @@ button:disabled {
 
     </div>
 
+
     <div
         class="last-checked"
-        id="lastChecked">
+        id="lastChecked"
+    >
         Not checked yet
     </div>
+
 
     <div id="inbox">
 
@@ -631,11 +1114,14 @@ button:disabled {
 
     </div>
 
-    <!-- INFORMATION -->
+
+    <!-- ABOUT -->
 
     <div class="info-section">
 
-        <h2>🔒 About Temp Mail Pro</h2>
+        <h2>
+            🔒 About Temp Mail Pro
+        </h2>
 
         <p>
             Temp Mail Pro gives you a temporary email address
@@ -649,21 +1135,42 @@ button:disabled {
         </p>
 
         <ul class="info-list">
-            <li>Generate an email instantly</li>
-            <li>Receive messages automatically</li>
-            <li>Copy your address easily</li>
-            <li>Delete unwanted messages</li>
-            <li>No personal email required</li>
+
+            <li>
+                Generate an email instantly
+            </li>
+
+            <li>
+                Receive messages automatically
+            </li>
+
+            <li>
+                Copy your address easily
+            </li>
+
+            <li>
+                Delete unwanted messages
+            </li>
+
+            <li>
+                No personal email required
+            </li>
+
         </ul>
 
     </div>
 
+
     <!-- FOOTER -->
 
     <div class="footer">
+
         Temp Mail Pro • Temporary email made simple
+
         <br>
+
         Fast • Simple • Temporary
+
     </div>
 
 </div>
@@ -671,17 +1178,33 @@ button:disabled {
 
 <script>
 
+/* ==========================================
+   API
+========================================== */
+
 const API = "https://mailboxtemp.com";
 
+
+/* ==========================================
+   GLOBAL VARIABLES
+========================================== */
+
 let currentEmail = null;
+
 let countdown = null;
+
 let inboxTimer = null;
+
 let emailExpired = false;
 
+let currentModal = null;
 
-/* ========================================
+let currentModalEscapeHandler = null;
+
+
+/* ==========================================
    BUTTONS
-======================================== */
+========================================== */
 
 const generateBtn =
     document.getElementById("generateBtn");
@@ -693,18 +1216,27 @@ const refreshBtn =
     document.getElementById("refreshBtn");
 
 
-function setButtonsDisabled(disabled) {
+/* ==========================================
+   BUTTON STATE
+========================================== */
 
-    generateBtn.disabled = disabled;
-    copyBtn.disabled = disabled;
-    refreshBtn.disabled = disabled;
+function updateButtonState() {
+
+    const hasEmail =
+        Boolean(currentEmail);
+
+    copyBtn.disabled =
+        !hasEmail || emailExpired;
+
+    refreshBtn.disabled =
+        !hasEmail || emailExpired;
 
 }
 
 
-/* ========================================
+/* ==========================================
    STATUS
-======================================== */
+========================================== */
 
 function setStatus(message) {
 
@@ -714,16 +1246,44 @@ function setStatus(message) {
 }
 
 
-/* ========================================
-   READ / UNREAD
-======================================== */
+/* ==========================================
+   READ MESSAGE STORAGE
+========================================== */
+
+function getReadStorageKey() {
+
+    if (!currentEmail) {
+        return "tempMailReadMessages";
+    }
+
+    return "tempMailReadMessages:" + currentEmail;
+
+}
+
+
+function getReadMessages() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                getReadStorageKey()
+            ) || "[]"
+        );
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
 
 function isMessageRead(messageId) {
 
     const readMessages =
-        JSON.parse(
-            localStorage.getItem("readMessages") || "[]"
-        );
+        getReadMessages();
 
     return readMessages.includes(
         String(messageId)
@@ -735,35 +1295,56 @@ function isMessageRead(messageId) {
 function markMessageAsRead(messageId) {
 
     const readMessages =
-        JSON.parse(
-            localStorage.getItem("readMessages") || "[]"
-        );
+        getReadMessages();
 
-    if (!readMessages.includes(String(messageId))) {
+    const id =
+        String(messageId);
 
-        readMessages.push(
-            String(messageId)
-        );
+    if (!readMessages.includes(id)) {
+
+        readMessages.push(id);
 
     }
 
     localStorage.setItem(
-        "readMessages",
+        getReadStorageKey(),
         JSON.stringify(readMessages)
     );
 
 }
 
 
-/* ========================================
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        String(text ?? "");
+
+    return div.innerHTML;
+
+}
+
+
+/* ==========================================
    GENERATE EMAIL
-======================================== */
+========================================== */
 
 async function generateEmail() {
 
-    if (generateBtn.disabled) return;
+    if (generateBtn.disabled) {
+        return;
+    }
 
-    setButtonsDisabled(true);
+    generateBtn.disabled = true;
+
+    generateBtn.textContent =
+        "⏳ Creating...";
 
     setStatus(
         "Creating your temporary email..."
@@ -772,7 +1353,11 @@ async function generateEmail() {
     try {
 
         clearInterval(inboxTimer);
+
         clearInterval(countdown);
+
+        closeMessageModal();
+
 
         const response =
             await fetch(
@@ -782,8 +1367,10 @@ async function generateEmail() {
                 }
             );
 
+
         const data =
             await response.json();
+
 
         if (!response.ok || !data.ok) {
 
@@ -794,42 +1381,70 @@ async function generateEmail() {
 
         }
 
+
         currentEmail =
             data.address;
 
-        emailExpired = false;
+        emailExpired =
+            false;
 
-        document.getElementById("email")
-            .textContent =
+
+        document.getElementById(
+            "email"
+        ).textContent =
             currentEmail;
 
-        document.getElementById("inbox")
-            .innerHTML = `
-                <div class="empty-inbox">
-                    <div class="empty-icon">📨</div>
-                    Waiting for incoming messages...
-                </div>
-            `;
 
-        document.getElementById("inboxCount")
-            .textContent = "0";
+        document.getElementById(
+            "inbox"
+        ).innerHTML = `
+            <div class="empty-inbox">
+                <div class="empty-icon">📨</div>
+                Waiting for incoming messages...
+            </div>
+        `;
 
-        document.getElementById("lastChecked")
-            .textContent = "Not checked yet";
+
+        document.getElementById(
+            "inboxCount"
+        ).textContent = "0";
+
+
+        document.getElementById(
+            "lastChecked"
+        ).textContent =
+            "Not checked yet";
+
+
+        document.getElementById(
+            "timer"
+        ).classList.remove("expired");
+
+
+        updateButtonState();
+
 
         startTimer(3600);
+
 
         setStatus(
             "Email created successfully!"
         );
 
+
         await checkInbox();
 
-        inboxTimer =
-            setInterval(
-                checkInbox,
-                5000
-            );
+
+        if (!emailExpired) {
+
+            inboxTimer =
+                setInterval(
+                    checkInbox,
+                    5000
+                );
+
+        }
+
 
     } catch (error) {
 
@@ -842,22 +1457,32 @@ async function generateEmail() {
 
     } finally {
 
-        setButtonsDisabled(false);
+        generateBtn.disabled =
+            false;
+
+        generateBtn.textContent =
+            "✨ Generate Email";
+
+        updateButtonState();
 
     }
 
 }
 
 
-/* ========================================
+/* ==========================================
    CHECK INBOX
-======================================== */
+========================================== */
 
 async function checkInbox() {
 
-    if (!currentEmail || emailExpired) {
+    if (
+        !currentEmail ||
+        emailExpired
+    ) {
         return;
     }
+
 
     try {
 
@@ -871,8 +1496,10 @@ async function checkInbox() {
                 "/emails"
             );
 
+
         const data =
             await response.json();
+
 
         if (!response.ok || !data.ok) {
 
@@ -883,8 +1510,10 @@ async function checkInbox() {
 
         }
 
+
         const messages =
             data.emails || [];
+
 
         document.getElementById(
             "lastChecked"
@@ -893,36 +1522,43 @@ async function checkInbox() {
             new Date().toLocaleTimeString();
 
 
+        /* EMPTY INBOX */
+
         if (messages.length === 0) {
 
             document.getElementById(
                 "inboxCount"
             ).textContent = "0";
 
+
             document.getElementById(
                 "inbox"
             ).innerHTML = `
                 <div class="empty-inbox">
-
-                    <div class="empty-icon">
-                        📭
-                    </div>
-
-                    No messages yet.
-                    <br>
+                    <div class="empty-icon">📭</div>
+                    No messages yet.<br>
                     Waiting for new mail...
-
                 </div>
             `;
 
+
+            setStatus(
+                "Inbox is empty."
+            );
+
             return;
+
         }
 
+
+        /* COUNT UNREAD */
 
         const unreadCount =
             messages.filter(
                 message =>
-                    !isMessageRead(message.id)
+                    !isMessageRead(
+                        message.id
+                    )
             ).length;
 
 
@@ -933,598 +1569,440 @@ async function checkInbox() {
 
 
         const inbox =
-            document.getElementById("inbox");
+            document.getElementById(
+                "inbox"
+            );
+
 
         inbox.innerHTML = "";
 
 
-        messages.forEach(message => {
+        /* BUILD MESSAGES */
 
-            const div =
-                document.createElement("div");
+        messages.forEach(
+            message => {
 
-            div.className =
-                "message";
-
-            div.style.cursor =
-                "pointer";
-
-
-            const unread =
-                !isMessageRead(message.id);
+                const div =
+                    document.createElement(
+                        "div"
+                    );
 
 
-            if (unread) {
-
-                div.style.borderLeft =
-                    "5px solid #2563eb";
-
-            }
+                div.className =
+                    "message";
 
 
-            const newLabel =
-                unread
-                ? '<span class="new-label">NEW</span>'
-                : "";
+                div.style.cursor =
+                    "pointer";
 
 
-            const receivedValue =
-                message.received_at ||
-                message.created_at ||
-                message.timestamp ||
-                message.date ||
-                message.sent_at;
+                const unread =
+                    !isMessageRead(
+                        message.id
+                    );
 
 
-            let receivedTime = "";
+                if (unread) {
 
-
-            if (receivedValue) {
-
-                const parsedDate =
-                    new Date(receivedValue);
-
-                if (!isNaN(parsedDate)) {
-
-                    receivedTime =
-                        '<br><span class="received-time">' +
-                        '🕐 Received: ' +
-                        parsedDate.toLocaleString() +
-                        '</span>';
+                    div.style.borderLeft =
+                        "5px solid #2563eb";
 
                 }
 
-            }
+
+                const newLabel =
+                    unread
+                        ? '<span class="new-label">NEW</span>'
+                        : "";
 
 
-            const preview =
-                message.preview ||
-                message.snippet ||
-                message.body ||
-                message.text ||
-                message.content ||
-                message.text_body ||
-                message.body_text ||
-                message.message ||
-                "Message received — click to open.";
+                const receivedValue =
+                    message.received_at ||
+                    message.created_at ||
+                    message.timestamp ||
+                    message.date ||
+                    message.sent_at;
 
 
-            div.innerHTML = `
-
-                <strong>
-                    ${escapeHtml(
-                        message.subject ||
-                        "No subject"
-                    )}
-                </strong>
-
-                ${newLabel}
-
-                <br><br>
-
-                <span style="color:#64748b;">
-                    From:
-                    ${escapeHtml(
-                        message.from_address ||
-                        "Unknown"
-                    )}
-                </span>
-
-                ${
-                    message.otp_code
-                    ? `
-                        <br>
-                        <strong>
-                            OTP:
-                            ${escapeHtml(
-                                message.otp_code
-                            )}
-                        </strong>
-                    `
-                    : ""
-                }
-
-                ${receivedTime}
-
-                <span class="message-preview">
-                    ${escapeHtml(preview)}
-                </span>
-
-                <span class="message-open">
-                    Click to open →
-                </span>
-
-            `;
+                let receivedTime =
+                    "";
 
 
-            /* ========================================
-               INBOX DELETE
-            ======================================== */
+                if (receivedValue) {
 
-            const inboxDeleteButton =
-                document.createElement("button");
-
-            inboxDeleteButton.textContent =
-                "🗑️ Delete";
-
-            inboxDeleteButton.className =
-                "inbox-delete";
-
-
-            inboxDeleteButton.onclick =
-                async function(event) {
-
-                    event.stopPropagation();
-
-                    try {
-
-                        const response =
-                            await fetch(
-                                API +
-                                "/api/email/" +
-                                encodeURIComponent(
-                                    currentEmail
-                                ) +
-                                "/" +
-                                encodeURIComponent(
-                                    message.id
-                                ),
-                                {
-                                    method: "DELETE"
-                                }
-                            );
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (
-                            !response.ok ||
-                            !data.ok
-                        ) {
-
-                            throw new Error(
-                                data.error ||
-                                "Could not delete email."
-                            );
-
-                        }
-
-
-                        div.remove();
-
-
-                        if (unread) {
-
-                            const count =
-                                parseInt(
-                                    document.getElementById(
-                                        "inboxCount"
-                                    ).textContent
-                                ) || 0;
-
-                            document.getElementById(
-                                "inboxCount"
-                            ).textContent =
-                                Math.max(
-                                    0,
-                                    count - 1
-                                );
-
-                        }
-
-
-                        setStatus(
-                            "Message deleted."
+                    const parsedDate =
+                        new Date(
+                            receivedValue
                         );
 
 
-                    } catch (error) {
+                    if (
+                        !isNaN(
+                            parsedDate.getTime()
+                        )
+                    ) {
 
-                        console.error(error);
-
-                        setStatus(
-                            "Could not delete message: " +
-                            error.message
-                        );
+                        receivedTime = `
+                            <br>
+                            <span class="received-time">
+                                🕐 Received:
+                                ${escapeHtml(
+                                    parsedDate.toLocaleString()
+                                )}
+                            </span>
+                        `;
 
                     }
 
-                };
+                }
 
 
-            div.appendChild(
-                inboxDeleteButton
-            );
+                const preview =
+                    message.preview ||
+                    message.snippet ||
+                    message.body ||
+                    message.text ||
+                    message.content ||
+                    message.text_body ||
+                    message.body_text ||
+                    message.message ||
+                    "Message received — click to open.";
 
 
-            /* ========================================
-               OPEN MESSAGE
-            ======================================== */
+                div.innerHTML = `
 
-            div.onclick =
-                async function() {
+                    <strong>
+                        ${escapeHtml(
+                            message.subject ||
+                            "No subject"
+                        )}
+                    </strong>
 
-                    try {
+                    ${newLabel}
 
-                        setStatus(
-                            "Opening message..."
-                        );
+                    <br><br>
 
+                    <span
+                        style="
+                            color:#64748b;
+                        "
+                    >
+                        From:
+                        ${escapeHtml(
+                            message.from_address ||
+                            "Unknown"
+                        )}
+                    </span>
 
-                        const response =
-                            await fetch(
-                                API +
-                                "/api/email/" +
-                                encodeURIComponent(
-                                    currentEmail
-                                ) +
-                                "/" +
-                                encodeURIComponent(
-                                    message.id
-                                )
-                            );
+                    ${
+                        message.otp_code
+                            ? `
+                                <br>
+                                <strong>
+                                    OTP:
+                                    ${escapeHtml(
+                                        message.otp_code
+                                    )}
+                                </strong>
+                            `
+                            : ""
+                    }
 
+                    ${receivedTime}
 
-                        const data =
-                            await response.json();
+                    <span class="message-preview">
+                        ${escapeHtml(
+                            preview
+                        )}
+                    </span>
 
+                    <span class="message-open">
+                        Click to open →
+                    </span>
 
-                        if (
-                            !response.ok ||
-                            !data.ok
-                        ) {
+                `;
 
-                            throw new Error(
-                                data.error ||
-                                "Could not open email."
-                            );
 
-                        }
+                /* ==========================
+                   DELETE FROM INBOX
+                ========================== */
 
+                const inboxDeleteButton =
+                    document.createElement(
+                        "button"
+                    );
 
-                        const email =
-                            data.email;
 
+                inboxDeleteButton.textContent =
+                    "🗑️ Delete";
 
-                        markMessageAsRead(
-                            message.id
-                        );
 
+                inboxDeleteButton.className =
+                    "inbox-delete";
 
-                        div.style.borderLeft =
-                            "";
 
+                inboxDeleteButton.setAttribute(
+                    "aria-label",
+                    "Delete message"
+                );
 
-                        const countElement =
-                            document.getElementById(
-                                "inboxCount"
-                            );
 
+                inboxDeleteButton.onclick =
+                    async function(event) {
 
-                        const currentCount =
-                            parseInt(
-                                countElement.textContent
-                            ) || 0;
+                        event.stopPropagation();
 
 
-                        if (
-                            unread &&
-                            currentCount > 0
-                        ) {
-
-                            countElement.textContent =
-                                currentCount - 1;
-
-                        }
-
-
-                        /* ========================================
-                           MESSAGE OVERLAY
-                        ======================================== */
-
-                        const fullMessage =
-                            document.createElement(
-                                "div"
-                            );
-
-                        fullMessage.className =
-                            "message-overlay";
-
-
-                        const messageWindow =
-                            document.createElement(
-                                "div"
-                            );
-
-                        messageWindow.className =
-                            "message-window";
-
-
-                        messageWindow.innerHTML = `
-
-                            <h2>
-                                ${escapeHtml(
-                                    email.subject ||
-                                    "No subject"
-                                )}
-                            </h2>
-
-                            <div class="message-info">
-
-                                <strong>From:</strong>
-                                ${escapeHtml(
-                                    email.from_address ||
-                                    "Unknown"
-                                )}
-
-                                ${
-                                    email.otp_code
-                                    ? `
-                                        <br>
-                                        <strong>
-                                            OTP:
-                                        </strong>
-
-                                        ${escapeHtml(
-                                            email.otp_code
-                                        )}
-                                    `
-                                    : ""
-                                }
-
-                            </div>
-
-                            <div class="message-body">
-
-                                ${escapeHtml(
-                                    email.body_text ||
-                                    email.body ||
-                                    email.text ||
-                                    "No message content available."
-                                )}
-
-                            </div>
-
-                        `;
-
-
-                        const modalButtons =
-                            document.createElement(
-                                "div"
-                            );
-
-                        modalButtons.className =
-                            "modal-buttons";
-
-
-                        /* CLOSE */
-
-                        const closeButton =
-                            document.createElement(
-                                "button"
-                            );
-
-                        closeButton.textContent =
-                            "Close";
-
-                        closeButton.className =
-                            "close-btn";
-
-
-                        closeButton.onclick =
-                            function() {
-
-                                fullMessage.remove();
-
-                            };
-
-
-                        /* DELETE */
-
-                        const deleteButton =
-                            document.createElement(
-                                "button"
-                            );
-
-                        deleteButton.textContent =
-                            "🗑️ Delete Message";
-
-                        deleteButton.className =
-                            "delete-message-btn";
-
-
-                        deleteButton.onclick =
-                            async function() {
-
-                                deleteButton.disabled =
-                                    true;
-
-                                deleteButton.textContent =
-                                    "Deleting...";
-
-                                try {
-
-                                    const response =
-                                        await fetch(
-                                            API +
-                                            "/api/email/" +
-                                            encodeURIComponent(
-                                                currentEmail
-                                            ) +
-                                            "/" +
-                                            encodeURIComponent(
-                                                message.id
-                                            ),
-                                            {
-                                                method:
-                                                    "DELETE"
-                                            }
-                                        );
-
-
-                                    const data =
-                                        await response.json();
-
-
-                                    if (
-                                        !response.ok ||
-                                        !data.ok
-                                    ) {
-
-                                        throw new Error(
-                                            data.error ||
-                                            "Could not delete email."
-                                        );
-
+                        inboxDeleteButton.disabled =
+                            true;
+
+
+                        inboxDeleteButton.textContent =
+                            "Deleting...";
+
+
+                        try {
+
+                            const response =
+                                await fetch(
+                                    API +
+                                    "/api/email/" +
+                                    encodeURIComponent(
+                                        currentEmail
+                                    ) +
+                                    "/" +
+                                    encodeURIComponent(
+                                        message.id
+                                    ),
+                                    {
+                                        method:
+                                            "DELETE"
                                     }
+                                );
 
 
-                                    fullMessage.remove();
+                            const data =
+                                await response.json();
 
-                                    div.remove();
-
-                                    setStatus(
-                                        "Message deleted successfully."
-                                    );
-
-
-                                } catch (error) {
-
-                                    console.error(
-                                        error
-                                    );
-
-                                    deleteButton.disabled =
-                                        false;
-
-                                    deleteButton.textContent =
-                                        "🗑️ Delete Message";
-
-                                    setStatus(
-                                        "Could not delete message: " +
-                                        error.message
-                                    );
-
-                                }
-
-                            };
-
-
-                        modalButtons.appendChild(
-                            closeButton
-                        );
-
-                        modalButtons.appendChild(
-                            deleteButton
-                        );
-
-
-                        messageWindow.appendChild(
-                            modalButtons
-                        );
-
-
-                        fullMessage.appendChild(
-                            messageWindow
-                        );
-
-
-                        document.body.appendChild(
-                            fullMessage
-                        );
-
-
-                        /* CLICK OUTSIDE */
-
-                        fullMessage.onclick =
-                            function(event) {
-
-                                if (
-                                    event.target ===
-                                    fullMessage
-                                ) {
-
-                                    fullMessage.remove();
-
-                                }
-
-                            };
-
-
-                        /* ESC KEY */
-
-                        function closeWithEscape(event) {
 
                             if (
-                                event.key ===
-                                "Escape"
+                                !response.ok ||
+                                !data.ok
                             ) {
 
-                                fullMessage.remove();
-
-                                document.removeEventListener(
-                                    "keydown",
-                                    closeWithEscape
+                                throw new Error(
+                                    data.error ||
+                                    "Could not delete email."
                                 );
 
                             }
 
+
+                            div.remove();
+
+
+                            if (unread) {
+
+                                const count =
+                                    parseInt(
+                                        document
+                                            .getElementById(
+                                                "inboxCount"
+                                            )
+                                            .textContent
+                                    ) || 0;
+
+
+                                document
+                                    .getElementById(
+                                        "inboxCount"
+                                    )
+                                    .textContent =
+                                    Math.max(
+                                        0,
+                                        count - 1
+                                    );
+
+                            }
+
+
+                            if (
+                                document.querySelectorAll(
+                                    "#inbox .message"
+                                ).length === 0
+                            ) {
+
+                                document.getElementById(
+                                    "inbox"
+                                ).innerHTML = `
+                                    <div class="empty-inbox">
+                                        <div class="empty-icon">
+                                            📭
+                                        </div>
+                                        No messages yet.<br>
+                                        Waiting for new mail...
+                                    </div>
+                                `;
+
+                            }
+
+
+                            setStatus(
+                                "Message deleted."
+                            );
+
+
+                        } catch (error) {
+
+                            console.error(
+                                error
+                            );
+
+
+                            inboxDeleteButton.disabled =
+                                false;
+
+
+                            inboxDeleteButton.textContent =
+                                "🗑️ Delete";
+
+
+                            setStatus(
+                                "Could not delete message: " +
+                                error.message
+                            );
+
                         }
 
-
-                        document.addEventListener(
-                            "keydown",
-                            closeWithEscape
-                        );
+                    };
 
 
-                    } catch (error) {
-
-                        console.error(error);
-
-                        setStatus(
-                            "Could not open this email: " +
-                            error.message
-                        );
-
-                    }
-
-                };
+                div.appendChild(
+                    inboxDeleteButton
+                );
 
 
-            inbox.appendChild(div);
+                /* ==========================
+                   OPEN MESSAGE
+                ========================== */
 
-        });
+                div.onclick =
+                    async function() {
+
+                        try {
+
+                            setStatus(
+                                "Opening message..."
+                            );
+
+
+                            const response =
+                                await fetch(
+                                    API +
+                                    "/api/email/" +
+                                    encodeURIComponent(
+                                        currentEmail
+                                    ) +
+                                    "/" +
+                                    encodeURIComponent(
+                                        message.id
+                                    )
+                                );
+
+
+                            const data =
+                                await response.json();
+
+
+                            if (
+                                !response.ok ||
+                                !data.ok
+                            ) {
+
+                                throw new Error(
+                                    data.error ||
+                                    "Could not open email."
+                                );
+
+                            }
+
+
+                            const email =
+                                data.email;
+
+
+                            markMessageAsRead(
+                                message.id
+                            );
+
+
+                            div.style.borderLeft =
+                                "";
+
+
+                            const countElement =
+                                document.getElementById(
+                                    "inboxCount"
+                                );
+
+
+                            const currentCount =
+                                parseInt(
+                                    countElement
+                                        .textContent
+                                ) || 0;
+
+
+                            if (
+                                unread &&
+                                currentCount > 0
+                            ) {
+
+                                countElement
+                                    .textContent =
+                                    currentCount - 1;
+
+                            }
+
+
+                            showMessageModal(
+                                email,
+                                message.id,
+                                div
+                            );
+
+
+                        } catch (error) {
+
+                            console.error(
+                                error
+                            );
+
+
+                            setStatus(
+                                "Could not open this email: " +
+                                error.message
+                            );
+
+                        }
+
+                    };
+
+
+                inbox.appendChild(
+                    div
+                );
+
+            }
+        );
 
 
         setStatus(
             messages.length +
             (
                 messages.length === 1
-                ? " message"
-                : " messages"
+                    ? " message"
+                    : " messages"
             ) +
             " in inbox."
         );
@@ -1532,7 +2010,10 @@ async function checkInbox() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         setStatus(
             "Inbox connection error. Retrying automatically..."
@@ -1543,26 +2024,408 @@ async function checkInbox() {
 }
 
 
-/* ========================================
-   ESCAPE HTML
-======================================== */
+/* ==========================================
+   MESSAGE MODAL
+========================================== */
 
-function escapeHtml(text) {
+function showMessageModal(
+    email,
+    messageId,
+    originalMessageDiv
+) {
 
-    const div =
-        document.createElement("div");
+    closeMessageModal();
 
-    div.textContent =
-        String(text);
 
-    return div.innerHTML;
+    const fullMessage =
+        document.createElement(
+            "div"
+        );
+
+
+    fullMessage.className =
+        "message-overlay";
+
+
+    fullMessage.setAttribute(
+        "role",
+        "dialog"
+    );
+
+
+    fullMessage.setAttribute(
+        "aria-modal",
+        "true"
+    );
+
+
+    const messageWindow =
+        document.createElement(
+            "div"
+        );
+
+
+    messageWindow.className =
+        "message-window";
+
+
+    const subject =
+        email.subject ||
+        "No subject";
+
+
+    const from =
+        email.from_address ||
+        "Unknown";
+
+
+    const body =
+        email.body_text ||
+        email.body ||
+        email.text ||
+        "No message content available.";
+
+
+    const otp =
+        email.otp_code;
+
+
+    messageWindow.innerHTML = `
+
+        <h2>
+            ${escapeHtml(
+                subject
+            )}
+        </h2>
+
+        <div class="message-info">
+
+            <strong>
+                From:
+            </strong>
+
+            ${escapeHtml(
+                from
+            )}
+
+            ${
+                otp
+                    ? `
+                        <br>
+
+                        <strong>
+                            OTP:
+                        </strong>
+
+                        ${escapeHtml(
+                            otp
+                        )}
+                    `
+                    : ""
+            }
+
+        </div>
+
+        <div class="message-body">
+
+            ${escapeHtml(
+                body
+            )}
+
+        </div>
+
+    `;
+
+
+    const modalButtons =
+        document.createElement(
+            "div"
+        );
+
+
+    modalButtons.className =
+        "modal-buttons";
+
+
+    /* CLOSE BUTTON */
+
+    const closeButton =
+        document.createElement(
+            "button"
+        );
+
+
+    closeButton.textContent =
+        "Close";
+
+
+    closeButton.className =
+        "close-btn";
+
+
+    closeButton.onclick =
+        function() {
+
+            closeMessageModal();
+
+        };
+
+
+    /* DELETE BUTTON */
+
+    const deleteButton =
+        document.createElement(
+            "button"
+        );
+
+
+    deleteButton.textContent =
+        "🗑️ Delete Message";
+
+
+    deleteButton.className =
+        "delete-message-btn";
+
+
+    deleteButton.onclick =
+        async function() {
+
+            deleteButton.disabled =
+                true;
+
+
+            deleteButton.textContent =
+                "Deleting...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API +
+                        "/api/email/" +
+                        encodeURIComponent(
+                            currentEmail
+                        ) +
+                        "/" +
+                        encodeURIComponent(
+                            messageId
+                        ),
+                        {
+                            method:
+                                "DELETE"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.ok
+                ) {
+
+                    throw new Error(
+                        data.error ||
+                        "Could not delete email."
+                    );
+
+                }
+
+
+                closeMessageModal();
+
+
+                if (
+                    originalMessageDiv &&
+                    originalMessageDiv.isConnected
+                ) {
+
+                    originalMessageDiv.remove();
+
+                }
+
+
+                updateInboxAfterDelete();
+
+
+                setStatus(
+                    "Message deleted successfully."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+
+                deleteButton.disabled =
+                    false;
+
+
+                deleteButton.textContent =
+                    "🗑️ Delete Message";
+
+
+                setStatus(
+                    "Could not delete message: " +
+                    error.message
+                );
+
+            }
+
+        };
+
+
+    modalButtons.appendChild(
+        closeButton
+    );
+
+
+    modalButtons.appendChild(
+        deleteButton
+    );
+
+
+    messageWindow.appendChild(
+        modalButtons
+    );
+
+
+    fullMessage.appendChild(
+        messageWindow
+    );
+
+
+    document.body.appendChild(
+        fullMessage
+    );
+
+
+    currentModal =
+        fullMessage;
+
+
+    /* CLOSE BY CLICKING OUTSIDE */
+
+    fullMessage.onclick =
+        function(event) {
+
+            if (
+                event.target ===
+                fullMessage
+            ) {
+
+                closeMessageModal();
+
+            }
+
+        };
+
+
+    /* CLOSE WITH ESCAPE */
+
+    currentModalEscapeHandler =
+        function(event) {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeMessageModal();
+
+            }
+
+        };
+
+
+    document.addEventListener(
+        "keydown",
+        currentModalEscapeHandler
+    );
+
+
+    closeButton.focus();
 
 }
 
 
-/* ========================================
+/* ==========================================
+   CLOSE MESSAGE MODAL
+========================================== */
+
+function closeMessageModal() {
+
+    if (currentModal) {
+
+        currentModal.remove();
+
+        currentModal = null;
+
+    }
+
+
+    if (
+        currentModalEscapeHandler
+    ) {
+
+        document.removeEventListener(
+            "keydown",
+            currentModalEscapeHandler
+        );
+
+        currentModalEscapeHandler =
+            null;
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE INBOX AFTER DELETE
+========================================== */
+
+function updateInboxAfterDelete() {
+
+    const remaining =
+        document.querySelectorAll(
+            "#inbox .message"
+        );
+
+
+    if (remaining.length === 0) {
+
+        document.getElementById(
+            "inbox"
+        ).innerHTML = `
+            <div class="empty-inbox">
+                <div class="empty-icon">
+                    📭
+                </div>
+                No messages yet.<br>
+                Waiting for new mail...
+            </div>
+        `;
+
+
+        document.getElementById(
+            "inboxCount"
+        ).textContent = "0";
+
+    }
+
+}
+
+
+/* ==========================================
    COPY EMAIL
-======================================== */
+========================================== */
 
 async function copyEmail() {
 
@@ -1576,6 +2439,18 @@ async function copyEmail() {
 
     }
 
+
+    if (emailExpired) {
+
+        setStatus(
+            "This email has expired. Generate a new one."
+        );
+
+        return;
+
+    }
+
+
     try {
 
         if (
@@ -1583,43 +2458,79 @@ async function copyEmail() {
             window.isSecureContext
         ) {
 
-            await navigator.clipboard.writeText(
-                currentEmail
-            );
+            await navigator.clipboard
+                .writeText(
+                    currentEmail
+                );
 
         } else {
 
             const textarea =
-                document.createElement("textarea");
+                document.createElement(
+                    "textarea"
+                );
+
 
             textarea.value =
                 currentEmail;
 
+
             textarea.style.position =
                 "fixed";
 
+
             textarea.style.opacity =
                 "0";
+
 
             document.body.appendChild(
                 textarea
             );
 
+
             textarea.select();
 
-            document.execCommand("copy");
+
+            document.execCommand(
+                "copy"
+            );
+
 
             textarea.remove();
 
         }
 
+
         setStatus(
             "Email copied!"
         );
 
+
+        const oldText =
+            copyBtn.textContent;
+
+
+        copyBtn.textContent =
+            "✅ Copied!";
+
+
+        setTimeout(
+            () => {
+
+                copyBtn.textContent =
+                    oldText;
+
+            },
+            1500
+        );
+
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         setStatus(
             "Could not copy email automatically."
@@ -1630,9 +2541,9 @@ async function copyEmail() {
 }
 
 
-/* ========================================
+/* ==========================================
    REFRESH INBOX
-======================================== */
+========================================== */
 
 async function refreshInbox() {
 
@@ -1646,6 +2557,7 @@ async function refreshInbox() {
 
     }
 
+
     if (emailExpired) {
 
         setStatus(
@@ -1656,11 +2568,19 @@ async function refreshInbox() {
 
     }
 
-    refreshBtn.disabled = true;
+
+    refreshBtn.disabled =
+        true;
+
+
+    refreshBtn.textContent =
+        "⏳ Refreshing...";
+
 
     setStatus(
         "Refreshing inbox..."
     );
+
 
     try {
 
@@ -1668,63 +2588,114 @@ async function refreshInbox() {
 
     } finally {
 
-        refreshBtn.disabled = false;
+        refreshBtn.disabled =
+            false;
+
+
+        refreshBtn.textContent =
+            "🔄 Refresh Inbox";
+
+
+        updateButtonState();
 
     }
 
 }
 
 
-/* ========================================
+/* ==========================================
    TIMER
-======================================== */
+========================================== */
 
 function startTimer(seconds) {
 
-    clearInterval(countdown);
+    clearInterval(
+        countdown
+    );
 
-    updateTimer(seconds);
+
+    updateTimer(
+        seconds
+    );
+
 
     countdown =
-        setInterval(() => {
+        setInterval(
+            () => {
 
-            seconds--;
-
-            updateTimer(seconds);
+                seconds--;
 
 
-            if (seconds <= 0) {
-
-                clearInterval(countdown);
-
-                clearInterval(inboxTimer);
-
-                emailExpired = true;
-
-                setStatus(
-                    "This temporary email has expired. Generate a new email to continue."
+                updateTimer(
+                    seconds
                 );
 
-                document.getElementById(
-                    "timer"
-                ).textContent =
-                    "00:00";
 
-            }
+                if (
+                    seconds <= 0
+                ) {
 
-        }, 1000);
+                    clearInterval(
+                        countdown
+                    );
+
+
+                    clearInterval(
+                        inboxTimer
+                    );
+
+
+                    emailExpired =
+                        true;
+
+
+                    document.getElementById(
+                        "timer"
+                    ).textContent =
+                        "00:00";
+
+
+                    document.getElementById(
+                        "timer"
+                    ).classList.add(
+                        "expired"
+                    );
+
+
+                    updateButtonState();
+
+
+                    setStatus(
+                        "This temporary email has expired. Generate a new email to continue."
+                    );
+
+                }
+
+            },
+            1000
+        );
 
 }
 
 
-/* ========================================
+/* ==========================================
    UPDATE TIMER
-======================================== */
+========================================== */
 
 function updateTimer(seconds) {
 
+    seconds =
+        Math.max(
+            0,
+            seconds
+        );
+
+
     const minutes =
-        Math.floor(seconds / 60);
+        Math.floor(
+            seconds / 60
+        );
+
 
     const remainingSeconds =
         seconds % 60;
@@ -1734,15 +2705,30 @@ function updateTimer(seconds) {
         "timer"
     ).textContent =
 
-        String(minutes)
-            .padStart(2, "0") +
+        String(
+            minutes
+        ).padStart(
+            2,
+            "0"
+        ) +
 
         ":" +
 
-        String(remainingSeconds)
-            .padStart(2, "0");
+        String(
+            remainingSeconds
+        ).padStart(
+            2,
+            "0"
+        );
 
 }
+
+
+/* ==========================================
+   INITIAL STATE
+========================================== */
+
+updateButtonState();
 
 </script>
 
