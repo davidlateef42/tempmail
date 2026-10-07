@@ -1,9 +1,11 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="TTjEtHK_Hm5-Xci13FreK6upFielfGeTQqWITVYgxgM" />
+
+<meta name="google-site-verification" content="TTjEtHK_Hm5-Xci13FreK6upFielfGeTQqWITVYgxgM">
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Temp Mail Pro - Free Temporary Email</title>
@@ -14,20 +16,60 @@
 >
 
 <meta name="robots" content="index, follow">
+
 <meta name="author" content="Temp Mail Pro">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Temp Mail Pro - Free Temporary Email">
-<meta property="og:description" content="Create a temporary email address instantly and receive messages without using your personal email.">
-<meta property="og:url" content="https://davidlateef42.github.io/tempmail/">
-<meta property="og:site_name" content="Temp Mail Pro">
+<meta
+    property="og:type"
+    content="website"
+>
 
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Temp Mail Pro - Free Temporary Email">
-<meta name="twitter:description" content="Create a temporary email address instantly and receive messages without using your personal email.">
+<meta
+    property="og:title"
+    content="Temp Mail Pro - Free Temporary Email"
+>
 
-<link rel="canonical" href="https://davidlateef42.github.io/tempmail/">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta
+    property="og:description"
+    content="Create a temporary email address instantly and receive messages without using your personal email."
+>
+
+<meta
+    property="og:url"
+    content="https://davidlateef42.github.io/tempmail/"
+>
+
+<meta
+    property="og:site_name"
+    content="Temp Mail Pro"
+>
+
+<meta
+    name="twitter:card"
+    content="summary"
+>
+
+<meta
+    name="twitter:title"
+    content="Temp Mail Pro - Free Temporary Email"
+>
+
+<meta
+    name="twitter:description"
+    content="Create a temporary email address instantly and receive messages without using your personal email."
+>
+
+<link
+    rel="canonical"
+    href="https://davidlateef42.github.io/tempmail/"
+>
+
+<link
+    rel="icon"
+    type="image/svg+xml"
+    href="favicon.svg"
+>
+
 
 <style>
 
@@ -776,7 +818,7 @@ button:disabled {
 
 
 /* =========================
-   ABOUT SECTION
+   INFORMATION SECTIONS
 ========================= */
 
 .info-section {
@@ -797,6 +839,14 @@ button:disabled {
     margin-top: 0;
 
     font-size: 20px;
+}
+
+.info-section h3 {
+    margin-top: 25px;
+
+    color: #ffffff;
+
+    font-size: 17px;
 }
 
 .info-section p {
@@ -840,9 +890,6 @@ button:disabled {
 
     line-height: 1.8;
 }
-
-
-/* FOOTER LINKS */
 
 .footer a {
     color: #60a5fa;
@@ -1089,7 +1136,6 @@ button:disabled {
             ✨ Generate Email
         </button>
 
-
         <button
             id="copyBtn"
             class="copy-btn"
@@ -1098,7 +1144,6 @@ button:disabled {
         >
             📋 Copy Email
         </button>
-
 
         <button
             id="refreshBtn"
@@ -1164,6 +1209,98 @@ button:disabled {
     </div>
 
 
+    <!-- HOW TEMPORARY EMAIL WORKS -->
+
+    <div class="info-section">
+
+        <h2>
+            📚 How Temporary Email Works
+        </h2>
+
+        <p>
+            Temporary email is a simple way to receive messages
+            without sharing your personal email address. Temp Mail Pro
+            creates a temporary inbox that can be used when you need
+            an email address for a short period of time.
+        </p>
+
+        <p>
+            After you generate an address, you can copy it and use it
+            to receive incoming messages. New messages appear in your
+            temporary inbox automatically.
+        </p>
+
+        <h3>
+            When can you use temporary email?
+        </h3>
+
+        <ul class="info-list">
+
+            <li>
+                Protect your personal email from unwanted messages.
+            </li>
+
+            <li>
+                Receive a verification or confirmation message.
+            </li>
+
+            <li>
+                Test websites and online services.
+            </li>
+
+            <li>
+                Keep temporary registrations separate from your main inbox.
+            </li>
+
+            <li>
+                Use a temporary address when you do not want to share
+                your primary email.
+            </li>
+
+        </ul>
+
+        <h3>
+            How to use Temp Mail Pro
+        </h3>
+
+        <ol class="info-list">
+
+            <li>
+                Click "Generate Email" to create a temporary address.
+            </li>
+
+            <li>
+                Click "Copy Email" to copy the address.
+            </li>
+
+            <li>
+                Use the address where you need to receive a message.
+            </li>
+
+            <li>
+                Return to Temp Mail Pro and check your inbox.
+            </li>
+
+            <li>
+                Open or delete messages as needed.
+            </li>
+
+        </ol>
+
+        <h3>
+            Important information
+        </h3>
+
+        <p>
+            Temporary email addresses are designed for short-term use.
+            Do not use a temporary address for important accounts,
+            password recovery, banking, financial services, or information
+            that you need to keep permanently.
+        </p>
+
+    </div>
+
+
     <!-- ABOUT -->
 
     <div class="info-section">
@@ -1219,6 +1356,7 @@ button:disabled {
         </p>
 
         <p>
+
             <a href="privacy.html">
                 Privacy Policy
             </a>
@@ -1240,6 +1378,7 @@ button:disabled {
             <a href="contact.html">
                 Contact
             </a>
+
         </p>
 
         <p>
@@ -1597,8 +1736,6 @@ async function checkInbox() {
             new Date().toLocaleTimeString();
 
 
-        /* EMPTY INBOX */
-
         if (messages.length === 0) {
 
             document.getElementById(
@@ -1626,8 +1763,6 @@ async function checkInbox() {
         }
 
 
-        /* COUNT UNREAD */
-
         const unreadCount =
             messages.filter(
                 message =>
@@ -1651,8 +1786,6 @@ async function checkInbox() {
 
         inbox.innerHTML = "";
 
-
-        /* BUILD MESSAGES */
 
         messages.forEach(
             message => {
@@ -1797,10 +1930,6 @@ async function checkInbox() {
 
                 `;
 
-
-                /* ==========================
-                   DELETE FROM INBOX
-                ========================== */
 
                 const inboxDeleteButton =
                     document.createElement(
@@ -1956,10 +2085,6 @@ async function checkInbox() {
                     inboxDeleteButton
                 );
 
-
-                /* ==========================
-                   OPEN MESSAGE
-                ========================== */
 
                 div.onclick =
                     async function() {
@@ -2222,8 +2347,6 @@ function showMessageModal(
         "modal-buttons";
 
 
-    /* CLOSE BUTTON */
-
     const closeButton =
         document.createElement(
             "button"
@@ -2245,8 +2368,6 @@ function showMessageModal(
 
         };
 
-
-    /* DELETE BUTTON */
 
     const deleteButton =
         document.createElement(
@@ -2385,8 +2506,6 @@ function showMessageModal(
         fullMessage;
 
 
-    /* CLOSE BY CLICKING OUTSIDE */
-
     fullMessage.onclick =
         function(event) {
 
@@ -2401,8 +2520,6 @@ function showMessageModal(
 
         };
 
-
-    /* CLOSE WITH ESCAPE */
 
     currentModalEscapeHandler =
         function(event) {
@@ -2809,4 +2926,3 @@ updateButtonState();
 
 </body>
 </html>
-```
